@@ -1,33 +1,3 @@
-Attribution 4.0 International (CC BY 4.0)
-
-=======================================================================
-SCOPE OF THIS LICENSE — READ FIRST
-=======================================================================
-
-This license applies ONLY to the original documentation written for this
-repository: README.md, RESEARCH.md, REFERENCES.md and PUBLICATION_AUDIT.md,
-including their prose, structure and any diagrams created for them.
-
-It does NOT apply to, and grants no rights whatsoever in:
-
-  * any vendor firmware, update package, firmware image or software extracted
-    from one;
-  * any third-party database, documentation, source code, tool or standard that
-    is referenced or described here;
-  * any trademark, product name, trade dress or logo.
-
-"TomTom", "smart", "Renault", "Mercedes-Benz", "MirrorLink" and "Android Auto"
-are trademarks of their respective owners. They are used here descriptively, to
-identify the hardware and software being discussed. No affiliation with,
-endorsement by, or support from any of those companies is claimed or implied.
-
-Nothing in this repository redistributes third-party material. Where a claim
-rests on a third party's work, that work is cited in REFERENCES.md, not copied.
-
-=======================================================================
-CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL PUBLIC LICENSE
-=======================================================================
-
 Attribution 4.0 International
 
 =======================================================================

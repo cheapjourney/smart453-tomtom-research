@@ -108,7 +108,8 @@ are not reproduced here.
 
 ## Licensing summary
 
-The text of this documentation is licensed **CC BY 4.0** — see `LICENSE`. That
+The text of this documentation is licensed **CC BY 4.0** — legal code in
+`LICENSE`, scope in `NOTICE.md`. That
 licence covers only the original prose written for this repository. It does not
 extend to any third-party material, and it grants no rights in any vendor firmware,
 software, database, documentation or trademark. Product names are used
@@ -116,7 +117,7 @@ descriptively; all trademarks remain with their owners.
 
 | Material | Status in this repository |
 |---|---|
-| Prose in `README.md`, `RESEARCH.md`, `REFERENCES.md`, `PUBLICATION_AUDIT.md` | **CC BY 4.0** (`LICENSE`) |
+| Prose in `README.md`, `RESEARCH.md`, `REFERENCES.md`, `PUBLICATION_AUDIT.md`, `NOTICE.md` | **CC BY 4.0** (`LICENSE`, scope in `NOTICE.md`) |
 | Vendor certification document | not included, not licensed here |
 | Vendor firmware image | not included, not licensed here |
 | Community wiki content | not included, not licensed here |

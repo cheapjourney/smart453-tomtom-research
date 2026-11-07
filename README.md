@@ -78,10 +78,11 @@ information.
 
 ## License
 
-The documentation text in this repository is licensed **CC BY 4.0** — the full
-licence and its scope are in `LICENSE`.
+The documentation text in this repository is licensed **CC BY 4.0**. The unmodified
+legal code is in [`LICENSE`](LICENSE); what the licence covers — and what it
+explicitly does not — is in [`NOTICE.md`](NOTICE.md).
 
-That licence covers **only** the original prose written for this repository. It
-grants no rights in any vendor firmware, software, database or documentation, and
-no rights in any trademark. Cited third-party material is listed in `REFERENCES.md`
-and is not redistributed here.
+In short: it covers only the original prose written for this repository. It grants
+no rights in any vendor firmware, software, database or documentation, and no rights
+in any trademark. Cited third-party material is listed in
+[`REFERENCES.md`](REFERENCES.md) and is not redistributed here.

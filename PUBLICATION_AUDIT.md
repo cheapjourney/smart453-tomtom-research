@@ -1,7 +1,11 @@
 # Publication audit
 
-Date: 2026-11-07. Scope: the three prose files in this directory. Nothing was
-published; no repository was created.
+Date: 2026-11-07. Scope: the documentation files in this directory.
+
+**Status: published.** Repository `cheapjourney/smart453-tomtom-research` is public.
+Initial commit `902f1b806ee6591df6aea78597d380bd7f64f0da` on `main`. This audit was
+performed before that commit and re-run after the licence restructuring described in
+section 7; the results below reflect the published content.
 
 This audit exists because the material is derived from a vendor's firmware and from
 a real vehicle. The default is to leave something out — a claim that cannot be
@@ -31,7 +35,7 @@ deleted there.
 
 ## 2. Checks performed
 
-Run against the three files in this directory:
+Run against the documentation files in this directory:
 
 | Check | Method | Result |
 |---|---|---|
@@ -44,7 +48,7 @@ Run against the three files in this directory:
 | Raw diagnostic hex / adapter setup | regex for the project's request payloads and adapter headers | clean |
 | Vendor code fragments | regex for Dalvik/Java/C declaration syntax and vendor package prefixes | clean |
 | Embedded blobs | regex for long base64 lines | clean |
-| File types | `file` | three UTF-8 text files, no binaries |
+| File types | `file` | six UTF-8 text files, no binaries |
 | URLs | extraction | 9 unique URLs, all in `REFERENCES.md` only |
 
 ## 3. Legal risk assessment
@@ -116,9 +120,9 @@ publishing any reverse-engineering research on a vehicle and is mitigated by:
 
 | # | Decision | Outcome |
 |---|---|---|
-| 1 | Text licence | **CC BY 4.0**, full legal code in `LICENSE`, scoped explicitly to this repository's own prose |
+| 1 | Text licence | **CC BY 4.0**; unmodified legal code in `LICENSE`, scope and third-party carve-out in `NOTICE.md` |
 | 2 | Vendor firmware link | **removed** from `REFERENCES.md`; replaced with a reference to the manufacturer's official support pages, no URL given |
-| 3 | Third-party rights | stated in `LICENSE` and `README.md`: no rights in vendor firmware, software, databases or trademarks are granted |
+| 3 | Third-party rights | stated in `NOTICE.md` and `README.md`: no rights in vendor firmware, software, databases or trademarks are granted |
 | 4 | Naming third-party vendors | projection stacks named by technology only (MirrorLink, Android Auto), vendor name omitted |
 | 5 | EULA conflict | only the device owner can answer; if one applies, publish the abstract results only |
 
@@ -129,7 +133,7 @@ publishing any reverse-engineering research on a vehicle and is mitigated by:
 | Privacy patterns (name, paths, RFC 1918, MAC, VIN, adapter serial, credentials) | clean |
 | Raw diagnostic hex / adapter setup strings | clean |
 | Vendor code fragments, class names, package names, `.apk`/`.odex`/`.smali` references | clean |
-| Embedded blobs / binaries | clean — five UTF-8 text files |
+| Embedded blobs / binaries | clean — six UTF-8 text files |
 | Evidence tags present and distributed | LIVE 20, OFFLINE 26, PUBLIC 9, REPORTED 7, OPEN 11 |
 | Firmware download link | absent |
 | Android Auto activation claim | none found |
@@ -149,5 +153,20 @@ Two residual risks remain and are inherent to the subject matter:
 2. the bit-encoding example — arithmetic only, no location, no ECU, no offset,
    explicitly never applied.
 
-Both are documented here rather than hidden. Nothing has been committed and no
-repository exists. Publication needs the owner's explicit go-ahead.
+Both are documented here rather than hidden.
+
+**Publication state:** published on 2026-11-07 as `cheapjourney/smart453-tomtom-research`
+(public), initial commit `902f1b806ee6591df6aea78597d380bd7f64f0da`. The licence
+layout was restructured afterwards — the scope notice moved from `LICENSE` into
+`NOTICE.md` so that GitHub can recognise the licence automatically — and the audit
+was re-run on the result. Section 2 and section 6 reflect that re-run.
+
+## 8. Post-publication check
+
+| Item | Result |
+|---|---|
+| Repository visibility | public |
+| Files published | six text files, matching the audited set |
+| Branch / commit | `main` at the audited commit |
+| Licence recognition | after moving the scope notice to `NOTICE.md`, GitHub reports `CC-BY-4.0` |
+| Third-party rights notice | present in `NOTICE.md` and linked from `README.md` |
