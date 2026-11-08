@@ -99,6 +99,37 @@ class TransportGuardTest(unittest.TestCase):
         with self.assertRaises(t.Blocked):
             t.send(object(), "ATMA")
 
+    def test_read_answer_refuses_non_read_services(self):
+        class NoPort:
+            def write(self, data):  # pragma: no cover
+                raise AssertionError("port must not be used")
+            def flush(self):         # pragma: no cover
+                raise AssertionError("port must not be used")
+
+        for req in ("10C0", "1081", "1101", "2E6C1C78", "2701", "31 01", "14 FF FF"):
+            with self.subTest(request=req):
+                with self.assertRaises(t.Blocked):
+                    t.read_answer(NoPort(), req, 0.0)
+
+    def test_read_answer_allows_only_asked_service(self):
+        class Port:
+            def __init__(self):
+                self.sent = []
+
+            def write(self, data):
+                self.sent.append(data)
+
+            def flush(self):
+                pass
+
+        ok = Port()
+        t.read_answer(ok, "10C0", 0.0, allow_services={"10"})
+        self.assertEqual(ok.sent, [b"10C0\r"])
+
+        write = Port()
+        t.read_answer(write, "2E6C1C78", 0.0, allow_services={"2E"})
+        self.assertEqual(write.sent, [b"2E6C1C78\r"])
+
     def test_isotp_single_frame(self):
         self.assertEqual(t.payload("62 6C 1C 38\r\r>"), bytes.fromhex("626C1C38"))
 

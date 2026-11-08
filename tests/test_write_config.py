@@ -159,6 +159,18 @@ class WriteToolTest(unittest.TestCase):
         self.assertEqual(writes, 1)
         self.assertIn("50 C0", res.stdout)
 
+    def test_exact_bytes_on_the_wire(self):
+        """What actually reached the ECU: one 10C0, then one 2E6C1C78."""
+        h = Harness("session_ok")
+        try:
+            h.run(session=True)
+            cmds = list(h.mock.commands)
+        finally:
+            h.close()
+        uut = [c for c in cmds if c.startswith(("10", "2E", "11", "27", "14"))]
+        self.assertEqual(uut, ["10C0", "2E6C1C78"])
+        self.assertLessEqual(len([c for c in cmds if c.startswith("10")]), 1)
+
     def test_session_silent_is_unconfirmed(self):
         res, writes = self.scenario("positive", 0, session=True)
         self.assertEqual(writes, 1)

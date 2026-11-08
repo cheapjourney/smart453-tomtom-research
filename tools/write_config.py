@@ -175,7 +175,8 @@ def main(argv=None) -> int:
         session_confirmed = None
         if args.session_after_sales:
             log("session_request", frame=SESSION_REQUEST)
-            sdata, sraw = t.read_answer(port, SESSION_REQUEST, args.timeout)
+            sdata, sraw = t.read_answer(port, SESSION_REQUEST, args.timeout,
+                                        allow_services={"10"})
             if not sdata:
                 session_confirmed = False
                 log("session_no_response",
@@ -193,7 +194,7 @@ def main(argv=None) -> int:
         frame = f"2E6C1C{target:02X}"
         print(f"write   : {frame}")
         log("write_request", frame=frame)
-        wdata, wraw = t.read_answer(port, frame, args.timeout)
+        wdata, wraw = t.read_answer(port, frame, args.timeout, allow_services={"2E"})
         kind = t.classify(wdata)
         if kind == "NEGATIVE":
             log("write_rejected", nrc=t.nrc_of(wdata), raw=wraw.strip())

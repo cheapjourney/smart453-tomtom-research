@@ -104,8 +104,23 @@ def payload(raw: str) -> bytes:
     return bytes(data)
 
 
-def read_answer(port, request_hex: str, timeout: float) -> tuple[bytes, str]:
-    """Send one UDS payload and return (payload, raw text). No retry."""
+#: Services a caller may send unless it asks for more. Read services only.
+DEFAULT_SERVICES = frozenset({"21", "22"})
+
+
+def read_answer(port, request_hex: str, timeout: float,
+                allow_services=None) -> tuple[bytes, str]:
+    """Send one UDS payload and return (payload, raw text). No retry.
+
+    ``allow_services`` is the set of service identifiers this call may use. The
+    default is read-only; the writer has to ask explicitly for ``10`` or ``2E``.
+    Anything else is refused before a byte leaves the process.
+    """
+    compact = request_hex.replace(" ", "").upper()
+    sid = compact[:2]
+    allowed = DEFAULT_SERVICES if allow_services is None else frozenset(allow_services)
+    if sid not in allowed:
+        raise Blocked(f"service 0x{sid} is not allowed for this call")
     port.write((request_hex + "\r").encode())
     port.flush()
     buf = b""
