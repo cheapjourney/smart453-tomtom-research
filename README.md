@@ -48,6 +48,7 @@ restart the head unit shows the Android Auto entries.
 
 | If you want to… | Read |
 |---|---|
+| **do the whole job once, in order** | **[`END_TO_END_GUIDE.md`](END_TO_END_GUIDE.md)** |
 | know whether your car is covered | [`docs/01-compatibility.md`](docs/01-compatibility.md) |
 | buy the right adapter | [`docs/02-required-hardware.md`](docs/02-required-hardware.md) |
 | install the tools | [`docs/03-software-installation.md`](docs/03-software-installation.md) |
@@ -114,12 +115,33 @@ the adapter over Bluetooth directly.
   after about 15 seconds even though the adapter looks available. Disconnect the
   phone (or turn its Bluetooth off) before connecting from the Mac.
 
+The bridge defaults to `/tmp/obdlink`; everything in this repository uses
+`/tmp/obdlink-mx`. Start it with the path spelled out:
+
+```bash
+# terminal 1 — keep this running
+./scripts/start.sh --address AA-BB-CC-DD-EE-FF --pty /tmp/obdlink-mx
+# bridge ready
+#   tcp : 127.0.0.1:35100 (loopback only)
+#   pty : /tmp/obdlink-mx -> /dev/ttys004
+```
+
+Stop it when you are done — `stop.sh` reads the same variable, so name the path
+there too:
+
+```bash
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
+```
+
 Setup details: [`docs/03-software-installation.md`](docs/03-software-installation.md)
-and [`docs/04-obdlink-connection.md`](docs/04-obdlink-connection.md).
+and [`docs/04-obdlink-connection.md`](docs/04-obdlink-connection.md). The complete
+walk-through from a blank Mac to a verified activation is in
+[`END_TO_END_GUIDE.md`](END_TO_END_GUIDE.md).
 
 ## Layout
 
 ```
+END_TO_END_GUIDE.md   the whole walk-through, steps 0–14, with expected outputs
 docs/        the guide, chapter by chapter
 tools/       read_config.py, write_config.py, ecu_config.py, obd_transport.py
 tests/       mock head unit and the offline test suite

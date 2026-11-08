@@ -35,9 +35,23 @@ That is what the companion project does:
 
 It opens RFCOMM channel 1 to the adapter, publishes a loopback TCP port, and
 bridges that to a pseudo-terminal. The bridge moves Bluetooth bytes; it does not
-filter diagnostic commands — that is done by the tools in `tools/`. See also the
-README section *Companion project: OBDLink macOS Bluetooth RFCOMM Bridge*. From the point of view of the tools in this
-repository it is simply a serial device:
+filter diagnostic commands — that is done by the tools in `tools/`.
+
+```bash
+./scripts/start.sh --address AA-BB-CC-DD-EE-FF --pty /tmp/obdlink-mx
+#   tcp : 127.0.0.1:35100 (loopback only)
+#   pty : /tmp/obdlink-mx -> /dev/ttys004
+
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh     # when you are done
+```
+
+**Naming:** the bridge's default PTY is `/tmp/obdlink`; this project uses
+`/tmp/obdlink-mx` in every command. Always pass `--pty /tmp/obdlink-mx` to
+`start.sh` and `OBDLINK_PTY=/tmp/obdlink-mx` to `stop.sh` and `verify.sh`, or the
+two sides will disagree about the path.
+
+From the point of view of the tools in this repository it is simply a serial
+device:
 
 ```
 adapter  →  RFCOMM  →  bridge  →  /tmp/obdlink-mx

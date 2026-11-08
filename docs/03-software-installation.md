@@ -84,7 +84,30 @@ a separate repository:
 
 <https://github.com/cheapjourney/obdlink-macos-rfcomm-bridge>
 
-Nothing from that project is copied here; `04-obdlink-connection.md` explains how
-the two fit together. A summary of what the bridge does — and the phone-blocks-the-
-adapter trap — is in the README section *Companion project: OBDLink macOS Bluetooth
-RFCOMM Bridge*.
+Build and start it with the port name this project expects. **The bridge defaults
+to `/tmp/obdlink`; everything here uses `/tmp/obdlink-mx`, so pass `--pty`
+explicitly:**
+
+```bash
+git clone https://github.com/cheapjourney/obdlink-macos-rfcomm-bridge.git
+cd obdlink-macos-rfcomm-bridge
+make                 # builds build/obdlink-rfcomm with swiftc
+make test            # 9 hardware-free checks
+
+./scripts/start.sh --address AA-BB-CC-DD-EE-FF --pty /tmp/obdlink-mx
+```
+
+The address is your adapter's, as shown in *System Settings → Bluetooth* (the
+bridge accepts `AA-BB-CC-DD-EE-FF` or colon-separated). Leave the terminal open.
+
+Stop it with the same path named in the environment, otherwise `stop.sh` looks for
+its default and leaves the PTY link behind:
+
+```bash
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
+```
+
+`04-obdlink-connection.md` explains how the two pieces fit together and why the
+`/dev/cu.*` device is not used. A summary — including the phone-blocks-the-adapter
+trap — is in the README section *Companion project: OBDLink macOS Bluetooth RFCOMM
+Bridge*.
