@@ -4,8 +4,11 @@ Notes from a read-only investigation of the TomTom-based head unit in a Smart 45
 (W453): what the unit is, how its diagnostic interface behaves, and how its
 phone-projection stacks are put together.
 
-> **Status: research notes, not a tool.** Nothing here writes to a vehicle, and
-> nothing here has been validated as a working modification. Every claim is
+> **Status: research notes plus one documented result.** The notes were read-only
+> until 2026-11-08; on that date one configuration byte of the head unit was
+> written on one vehicle and confirmed by read-back and by the user interface. That
+> case is recorded in `RESULTS/` and summarised in `RESEARCH.md` section 9. It is a
+> single documented case, not a validated general procedure. Every claim is
 > labelled with how it was obtained — see *Evidence levels* below.
 
 ## What this is
@@ -14,16 +17,21 @@ phone-projection stacks are put together.
   adapter, using only reading diagnostic services.
 - An architectural description of the unit's software, derived from a publicly
   downloadable firmware image that the vendor distributes.
-- A list of questions that could not be answered without further hardware access.
+- A record of one Android Auto activation performed by the vehicle's owner on
+  2026-11-08, with the exact diagnostic frames and answers.
 
 ## What this is not
 
-- Not a coding, flashing or retrofit guide. There are no write procedures here.
+- Not a coding, flashing or retrofit guide. The activation in `RESULTS/` is
+  described as a case history, not as a procedure to follow: the target value
+  depends on the flags a given unit already reports.
 - Not a redistribution of vendor firmware, extracted applications or vendor
   configuration databases.
 - Not affiliated with, endorsed by or supported by TomTom, smart, Renault or
   Mercedes-Benz. Product names are used descriptively only.
-- Not a claim that Android Auto, CarPlay or any other feature can be enabled.
+- Not a claim that Android Auto works elsewhere, that projection over USB has been
+  demonstrated, or that CarPlay can be added. Only the configuration change and the
+  resulting menu entries were observed.
 
 ## Evidence levels
 
@@ -47,6 +55,7 @@ kind of evidence, all applicable tags are given.
 | `RESEARCH.md` | The findings: environment, identity, diagnostics, architecture, encoding |
 | `REFERENCES.md` | Public sources, each with a URL and what it supports |
 | `PUBLICATION_AUDIT.md` | What was deliberately left out and why, plus the remaining risks |
+| `RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md` | Full account of the one activation performed |
 
 ## Headline findings
 
@@ -60,6 +69,11 @@ kind of evidence, all applicable tags are given.
    stack and an Android Auto stack — both fully implemented, both invisible in the
    normal app list. **[OFFLINE]**
 5. There is no CarPlay stack in the firmware. **[OFFLINE]**
+6. Android Auto was activated on one vehicle on 2026-11-08 by setting a single
+   configuration bit (`0x38` → `0x78`, mask `0x40`) after switching the head unit
+   into its after-sales diagnostic session. The write was accepted and read back;
+   the UI shows the Android Auto entries after a restart. Projection over USB and
+   CarPlay remain untested. **[LIVE] [REPORTED] [OPEN]**
 
 ## Scope and safety
 

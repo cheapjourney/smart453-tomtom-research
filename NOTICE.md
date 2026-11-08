@@ -3,8 +3,9 @@
 ## What the licence covers
 
 The documentation in this repository — `README.md`, `RESEARCH.md`, `REFERENCES.md`,
-`PUBLICATION_AUDIT.md` and this notice — is licensed under **Creative Commons
-Attribution 4.0 International (CC BY 4.0)**. The unmodified legal code is in
+`PUBLICATION_AUDIT.md`, `RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md` and this
+notice — is licensed under **Creative Commons Attribution 4.0 International
+(CC BY 4.0)**. The unmodified legal code is in
 [`LICENSE`](LICENSE).
 
 ## What the licence does not cover

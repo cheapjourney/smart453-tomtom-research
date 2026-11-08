@@ -19,7 +19,11 @@ The work split into three parts:
 2. read only identification data from the head unit over diagnostics,
 3. analyse a firmware image the vendor publishes publicly, offline.
 
-No coding, adaptation or programming was performed at any point.
+Until 2026-11-08 the work was read-only: identification reads and offline image
+analysis. On that date a single configuration byte in the head unit was written,
+by the owner of the vehicle, with the sequence documented in section 9. No other
+control unit was written to, no firmware was flashed and no adaptation of a
+safety-relevant system was performed.
 
 ---
 
@@ -202,9 +206,10 @@ than in code. The structure, as it applies to this unit: **[PUBLIC] [OFFLINE]**
   derived from the address by a fixed rule stored alongside it.
 - **Requests**: a catalogue of named requests, each with a service identifier, a
   payload and a description of the expected reply.
-- **Field definitions**: the reply payload is described as a set of fields, each
-  with a bit offset, a bit length, an interpretation (unsigned, signed, ASCII) and
-  a scale/offset for physical units.
+- **Field definitions**: the reply payload is described as a set of fields, each with
+  a bit offset, a bit length, an interpretation (unsigned, signed, ASCII) and a
+  scale/offset for physical units. The offset counts from the most significant bit —
+  see section 6.1 for the exact mapping.
 - **Bit-field enumerations**: individual bits inside a field are named, so a single
   configuration byte can carry several independent flags.
 
@@ -218,20 +223,36 @@ here; its licensing is unclear. See `PUBLICATION_AUDIT.md`.
 
 ## 6. Bit encoding: MSB-first, and the 0x38 → 0x78 example
 
-### 6.1 The convention
+### 6.1 Two numbering systems, and why they get mixed up
 
-In DDT-style descriptors bits are numbered **MSB-first**: bit 7 is the most
-significant bit of the byte, bit 0 the least significant.
+DDT descriptors carry a `bitoffset` that is counted **from the most significant
+bit**: offset `0` is the leftmost bit of the byte. Conventional bit numbering counts
+the other way round, from the least significant bit. Both describe the same byte, so
+the two series run in opposite directions:
+
+| DDT4All offset | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|---|---|---|---|---|---|---|---|---|
+| conventional bit | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+| mask | 0x80 | 0x40 | 0x20 | 0x10 | 0x08 | 0x04 | 0x02 | 0x01 |
+
+For a field one byte wide the mask follows directly:
 
 ```
-bit    7   6   5   4   3   2   1   0
-mask 0x80 0x40 0x20 0x10 0x08 0x04 0x02 0x01
+mask = 1 << (7 - ddt_bitoffset)
 ```
 
-A "bit 6" flag therefore corresponds to mask `0x40`, not `0x04`. Getting this
-backwards is the classic error when translating a descriptor into a byte value,
-and it produces a value that is wrong but plausible — the worst kind, because the
-unit accepts it silently.
+**Verified against the ddt4all implementation [PUBLIC].** In `ecu_data.py` the read
+path converts the response bytes into an MSB-first binary string and slices it with
+`hextobin[startBit : startBit + bits]`; the write path assigns
+`requestasbin[start_bit + i] = valueasbin[i]`. In both, `bitoffset 0` lands on the
+leftmost — most significant — bit. The little-endian branch uses
+`lastbit = 7 - startBit + 1`, which is the same mapping expressed in conventional
+bit numbers.
+
+The practical trap: **"bit 6" and "DDT offset 6" are different bits.** Bit 6 is mask
+`0x40`; DDT offset 6 is mask `0x02`. Reading a descriptor as if the two matched
+shifts the mask by one position at a time, which yields a value that differs from
+the intended one and still looks like a plausible hex number.
 
 ### 6.2 The arithmetic
 
@@ -244,7 +265,7 @@ Take the starting byte:
        └────── bits 6,7 clear
 ```
 
-Setting bit 6 (mask `0x40`) with a logical OR:
+Setting conventional bit 6 — DDT4All offset 1, mask `0x40` — with a logical OR:
 
 ```
 0x38      0011 1000
@@ -253,25 +274,32 @@ Setting bit 6 (mask `0x40`) with a logical OR:
 0x78      0111 1000
 ```
 
-So `0x38 | 0x40 = 0x78`. The delta is exactly `0x40`, one bit, MSB-first
-numbering. **[REPORTED] [OFFLINE]**
+So `0x38 | 0x40 = 0x78`. In descriptor terms this sets **bitoffset 1** of that byte;
+the delta is exactly `0x40`, one bit position. **[REPORTED]**
 
-### 6.3 What this example is and is not
+**Android Auto = DDT4All offset 1 = conventional bit 6 = mask `0x40`.**
+**[REPORTED]**
 
-`0x38` is the starting value used in the project's own notes for a configuration
-byte associated with the Android Auto add-on; `0x78` is the arithmetic target after
-setting that single bit. **[REPORTED]**
+### 6.3 What this example turned out to be
 
-It is published here purely as an illustration of the encoding convention. It is
-**not** a procedure:
+`0x38` is the value the head unit reported for data identifier `0x6C1C` on
+2026-11-08; `0x78` is the value after setting that single bit, written to the unit
+and read back. **[LIVE]**
 
-- the write was never performed,
-- it is not known whether the unit validates or reverts that byte,
-- the byte's exact location, owning ECU and effect are not stated here on purpose.
+The example is no longer hypothetical. It is documented as a case, not as a
+recipe:
 
-A second operator detail is worth recording because it is a common source of
-misreading: some descriptors number bits LSB-first instead. When a value "almost"
-looks right, check the convention before checking the data.
+- the write was performed once, on one vehicle, by its owner, and confirmed by
+  read-back and by the user interface after a restart — see section 9,
+- the byte's location, owning unit and bit layout are stated there because that is
+  the finding,
+- whether another unit of the same family accepts the same value is unknown; the
+  value depends on the flags already set in the byte.
+
+A related trap, and this one is verifiable in the implementation: the little-endian
+switch in a descriptor changes **byte order**, not the bit-numbering convention. The
+offset still counts from the most significant bit; only the byte sequence is
+reversed. Do not read an endian flag as a statement about bit direction. **[PUBLIC]**
 
 ---
 
@@ -288,8 +316,13 @@ looks right, check the convention before checking the data.
 | No CarPlay / AirPlay stack present | **[OFFLINE]** |
 | Apple accessory (iAP) support present, media role only | **[OFFLINE]** |
 | Three software gates: factory device class, signed installer, signed update | **[OFFLINE]** |
-| DDT descriptor structure and MSB-first bit numbering | **[PUBLIC] [OFFLINE]** |
-| `0x38 | 0x40 = 0x78` for the AA-related configuration byte | **[REPORTED]** |
+| DDT descriptor structure | **[PUBLIC] [OFFLINE]** |
+| MSB-first offset convention, verified in `ecu_data.py` | **[PUBLIC]** |
+| `0x38 | 0x40 = 0x78` (DDT offset 1, conventional bit 6) | **[LIVE]** — written and read back on 2026-11-08 |
+| `2E` to `0x6C1C` refused in the default session with `7F 2E 7F` | **[LIVE]** |
+| Accepted after `10 C0` (`50 C0`), answered `6E 6C 1C`, read-back `0x78` | **[LIVE]** |
+| Android Auto entries visible in the UI after a restart | **[REPORTED]** |
+| Projection over USB / CarPlay via an external box | **[OPEN]** |
 
 ---
 
@@ -322,14 +355,93 @@ looks right, check the convention before checking the data.
 
 ### 8.4 Android Auto activation
 
-- Whether the installed Android Auto add-on is enabled on a retail unit was never
-  verified. The stack is present and complete; whether the vehicle's configuration
-  enables it is untested. **[OPEN]**
-- The `0x38`/`0x78` example above is arithmetic, not a result. No activation was
-  attempted or observed. **[OPEN]**
+- Whether the installed Android Auto add-on is enabled on a retail unit: **answered
+  for this unit on 2026-11-08.** The configuration byte carried Android Auto as
+  absent; after setting the single bit and restarting, the UI shows the entries.
+  **[LIVE] [REPORTED]** — see section 9.
+- Whether a USB phone session actually establishes, and whether a third-party
+  CarPlay box works on top of it, remains **untested**. A menu entry is not a
+  working projection. **[OPEN]**
+- Whether other units of the same family behave identically is unknown; the
+  starting byte differs per vehicle configuration. **[OPEN]**
 
 ### 8.5 Legal and ethical questions
 
 - What the vendor's firmware licence permits in terms of publishing *findings* (as
   opposed to code) is not settled. This repository publishes no vendor code, which
   keeps the question academic for now. **[OPEN]**
+
+---
+
+## 9. Confirmed Android Auto ECU configuration and UI activation — 2026-11-08
+
+A single configuration byte of the head unit was written on this vehicle, by its
+owner, after the read-only phase described above. This section records the
+protocol facts; the full account, including preconditions and limits, is in
+[`RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md`](RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md).
+
+### 9.1 What changed
+
+| | Value | Evidence |
+|---|---|---|
+| Data identifier | `0x6C1C` on the head unit (logical address `0x58`) | **[LIVE]** |
+| Before | `0x38` | **[LIVE]** |
+| After | `0x78` | **[LIVE]** |
+| Delta | `0x40`, i.e. DDT4All offset 1 / conventional bit 6 | **[LIVE]** |
+
+`0x38` = MirrorLink present, MW enabled, LW enabled, Android Auto absent.
+`0x78` adds Android Auto and touches nothing else. MirrorLink and both radio bands
+were already set and were carried over unchanged.
+
+### 9.2 First attempt: rejected in the default session
+
+`2E 6C 1C 78` answered **`7F 2E 7F`** — serviceNotSupportedInActiveSession. The
+request was rejected before execution; the byte did not change. One write frame
+was sent, no retry, no session change. **[LIVE]**
+
+### 9.3 Second attempt: after-sales session
+
+| Frame | Answer |
+|---|---|
+| `10 C0` | `50 C0` |
+| `2E 6C 1C 78` | `6E 6C 1C` |
+| `22 6C 1C` (read-back) | `62 6C 1C 78` |
+
+One session frame, one write frame, no retry, no security access, no reset. All
+three answers are **[LIVE]**. **[LIVE]**
+
+`10 C0` is session type `0x40` with the `suppressPosRspMsgIndicationBit` set. That
+bit suppresses only *positive* responses; a negative response is always sent. This
+unit answered anyway, but a silent session request would have proven nothing and
+must not be read as success.
+
+**The session requirement is confirmed for this unit at this software version, not
+for every Smart 453.** The vendor documents no such requirement, and a different
+build may accept the write in the default session or reject it in any session.
+
+### 9.4 User interface
+
+After a restart of the head unit the owner reports that the Smartphone Screen menu
+shows Android Auto settings and an Android Auto tutorial entry, that the automatic
+start setting is reachable, and that MirrorLink is still present. **[REPORTED]**
+
+The restart matters: the unit caches the vehicle configuration locally and
+refreshes it at startup or on a vehicle-side end-of-line signal, so the byte alone
+does not change the screen.
+
+### 9.5 What this does not show
+
+- A phone was not connected after the activation; USB projection is **untested**.
+  **[OPEN]**
+- A third-party CarPlay box was not tried; the firmware contains no CarPlay stack.
+  **[OPEN]**
+- Persistence across a full power cycle was not read back. **[OPEN]**
+- Transferability to other units is unknown; the correct target value depends on
+  the flags a given unit already reports. **[OPEN]**
+
+### 9.6 Recovery
+
+There is no verified recovery path beyond writing the original value back over the
+same diagnostic channel. For this unit that value was `0x38`. If a unit stops
+answering diagnostics, no documented service mode or recovery image is available
+in the material analysed here. **[OFFLINE] [OPEN]**

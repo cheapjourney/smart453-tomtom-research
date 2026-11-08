@@ -170,3 +170,98 @@ was re-run on the result. Section 2 and section 6 reflect that re-run.
 | Branch / commit | `main` at the audited commit |
 | Licence recognition | after moving the scope notice to `NOTICE.md`, GitHub reports `CC-BY-4.0` |
 | Third-party rights notice | present in `NOTICE.md` and linked from `README.md` |
+
+---
+
+## 9. Update 2026-11-08 — activation disclosure
+
+This section records a deliberate change of decision and the re-audit that
+accompanied it. The earlier sections are left as they were; where they conflict
+with this one, this one applies.
+
+### 9.1 What changed
+
+On 2026-11-08 the vehicle's owner performed and confirmed an Android Auto
+activation on the research vehicle. The owner decided that the confirmed case
+should be published, including the diagnostic frames that produced it. That
+overrides two entries in the section 1 exclusion table:
+
+| Previously excluded | Now |
+|---|---|
+| "Any write procedure (coding, adaptation, retrofit steps)" | **Published as a documented case**, not as a guide: `RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md` and `RESEARCH.md` §9 |
+| "Raw request hex strings" | **Published for this one data identifier**: the session frame, the write frame and the three answers |
+
+The reasoning is the owner's: a confirmed result with its exact protocol values is
+the finding, and withholding the frames would leave a claim nobody can check.
+
+Everything else in section 1 still stands. Still excluded: the vendor firmware and
+update package, extracted applications and file-system content, the third-party
+configuration database, all capture files and raw logs, VIN and identification
+record bytes, adapter serial, Bluetooth address, hostnames, addresses and local
+paths.
+
+### 9.2 What was published, exactly
+
+- session frame `10 C0` and its answer `50 C0`,
+- write frame `2E 6C 1C 78` and its answer `6E 6C 1C`,
+- read-back `62 6C 1C 78`, and the preceding value `0x38`,
+- the rejected first attempt: `2E 6C 1C 78` → `7F 2E 7F`,
+- the bit table that turns `0x38` into `0x78` (offset 1, mask `0x40`).
+
+Not published: timestamps that would tie the vehicle to a place, log files, adapter
+setup sequences, and any second data identifier.
+
+### 9.3 Images
+
+The owner took two photographs of the head unit's screen after the activation.
+They are **not** included: they were not available in the working copy used for this
+publication, and their privacy status has not been checked. The user-interface
+result is documented as a text observation tagged **[REPORTED]** instead. No image
+was recreated or substituted.
+
+### 9.4 Re-run of the privacy checks
+
+| Check | Result |
+|---|---|
+| Personal name / home paths | clean |
+| RFC 1918 addresses | clean |
+| MAC addresses | clean |
+| VIN patterns | clean — the only hit is this file describing its own check |
+| Adapter serial in device names | clean |
+| Credentials / tokens | clean — the only hit is the heading "Trade secrets" |
+| Vendor artefacts by filename | clean — two hits are this file's own exclusion table |
+| Binaries / images | clean — text files only |
+
+### 9.5 Legal and safety re-assessment
+
+**Copyright.** Unchanged: no vendor code, firmware, application or database is
+reproduced. Protocol values read from a device the owner possesses are facts about
+that device.
+
+**Anti-circumvention.** Unchanged and now more explicit: no signature was broken,
+no protection was removed. `10 C0` is a diagnostic session that the unit offers; it
+is not a security mechanism, and there is no security-access service in the data set
+used here.
+
+**Safety.** Raised from *low* to *moderate*. The repository now contains a working
+sequence that changes a configuration byte in a production head unit. Mitigations
+in the published text:
+
+- it is framed as one case on one unit, with an explicit statement that the session
+  requirement is confirmed only for that unit at that software version,
+- it states that the target value depends on the flags a unit already reports, so
+  copying `0x78` blindly can clear flags elsewhere,
+- it states that no recovery path is verified and that a failed write may be
+  unrecoverable,
+- it separates the confirmed configuration change from the untested projection and
+  from the untested CarPlay path.
+
+**Residual risk:** moderate, and accepted by the owner of the vehicle and of this
+repository. A reader who copies the sequence onto a different unit does so at their
+own risk; the text says so in three places.
+
+### 9.6 Verdict of the re-audit
+
+Publishable. No personal data, no vendor material, no third-party asset, no
+credentials, no binaries. The one substantive change is that a protocol sequence is
+now disclosed deliberately, with its scope and its limits stated next to it.
