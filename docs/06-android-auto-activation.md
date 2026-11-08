@@ -9,7 +9,15 @@ project.
 | Route | Status |
 |---|---|
 | Manual route with DDT4All, as described in public guides | **DOCUMENTED** — not executed by this project |
-| `tools/write_config.py` | **TESTED** on the research vehicle on 2026-11-08 |
+| The activation on 2026-11-08 | **TESTED** — performed on the vehicle with this project's own tool of that day |
+| `tools/write_config.py` (the code published here) | **MOCK-TESTED** — validated against the mock head unit only, **never run on a vehicle** |
+
+The tool that performed the activation and the tool published here are the same
+program in its essentials: same adapter sequence, same session frame, same write
+frame, same ISO-TP handling. The published version was re-written for release — it
+has stricter argument handling and an explicit per-call service allowlist — and its
+behaviour has only been verified against `tests/mock_ecu.py`. Do not read "the
+activation worked" as "this exact file has been run on a car".
 
 ---
 

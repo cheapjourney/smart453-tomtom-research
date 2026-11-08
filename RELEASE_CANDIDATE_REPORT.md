@@ -172,3 +172,22 @@ clone, and no personal or vendor data is present.
 
 **READY_FOR_PUBLICATION = YES**, pending the owner's explicit decision. The
 repository remains private until that decision is made.
+
+---
+
+## 9. Addendum before publication — labelling of the published code
+
+Raised by the owner during the release review: the published scripts must be named
+**MOCK-TESTED**, not "tested on the vehicle". The report above already said the
+published writer was never run on a car, but one table in `docs/06` still labelled
+`tools/write_config.py` as *TESTED on the research vehicle*. That was wrong and has
+been corrected:
+
+| Where | Change |
+|---|---|
+| `docs/06-android-auto-activation.md` | status table split into three rows: DDT4All route *DOCUMENTED*, the activation *TESTED*, the published tool *MOCK-TESTED*; plus a paragraph explaining that the tool of the day and the published tool are the same protocol in a stricter implementation |
+| `docs/01-compatibility.md`, `README.md` | new evidence tag **MOCK-TESTED** defined |
+| `docs/07-verification.md` | read-back marked TESTED for 2026-11-08 with the tool of that day; the published reader *MOCK-TESTED* |
+| `tools/read_config.py`, `tools/write_config.py` | docstring states mock-tested only, never run on a vehicle |
+
+Nothing else changed. The test suite still reports 36/36 after the edit.

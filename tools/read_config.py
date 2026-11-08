@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Read the head unit's identity and configuration byte — read-only.
 
+VALIDATION: mock-tested only. Behaviour is verified against the mock head unit in
+tests/; this file has never been run against a vehicle.
+
 Sends exactly two requests, both ``ReadDataByIdentifier``:
 
     22 F1 87   part reference  (must return the expected part number)

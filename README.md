@@ -76,6 +76,11 @@ cp config/aa_write.example.json config/aa_write.json   # then edit: enabled=true
     --expect-current 38 --confirm-target 78 --min-voltage 12.5
 ```
 
+Both tools are **MOCK-TESTED**: their behaviour is verified against the mock head
+unit in `tests/`, not on a vehicle. The activation described above was performed
+with the project's tool of that day, which is the same protocol in a less strict
+implementation.
+
 `tools/write_config.py` verifies the part number, the current value, the supply
 voltage and the target before it sends anything, sends exactly one frame, reads the
 value back once, and never retries. It cannot clear the Android Auto bit again —
@@ -108,7 +113,8 @@ Every factual statement is tagged:
 
 | Tag | Meaning |
 |---|---|
-| **[LIVE]** / **TESTED** | performed on the vehicle, with logged answers |
+| **[LIVE]** / **TESTED** | the procedure was performed on the vehicle, with logged answers |
+| **MOCK-TESTED** | the code was exercised only against the mock head unit in `tests/` |
 | **[DOCUMENTED]** | described by a third party, not executed here |
 | **[OFFLINE]** | derived from the vendor's published firmware image, no vehicle |
 | **[PUBLIC]** | taken from a public document or repository |

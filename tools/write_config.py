@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """One-shot, fail-closed writer for the Android Auto bit of the head unit.
 
+VALIDATION: mock-tested only. Everything below is verified against the mock head
+unit in tests/ (36 offline tests). The activation on the reference vehicle was
+performed with the project's own tool of that day - the same protocol in a less
+strict implementation. This exact file has never been run on a vehicle.
+
 This is the ONLY part of the project that can put a write on the bus. It is
 locked by default and sends exactly one write frame, for one data identifier,
 after proving identity, voltage and the value that was read a moment earlier.

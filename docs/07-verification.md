@@ -31,7 +31,9 @@ If you used DDT4All or any other tool, verify with the reader:
 ./tools/read_config.py --port /tmp/obdlink-mx
 ```
 
-Expected: `0x78`, with MirrorLink still present. `TESTED`.
+Expected: `0x78`, with MirrorLink still present. `TESTED` on 2026-11-08, with the
+tool of that day. The reader in `tools/` implements the same request; it is
+`MOCK-TESTED` only.
 
 If the read-back differs from the target, the tool exits 8 and stops. Do not run
 it again in the same session; the unit accepted a frame but did not store the

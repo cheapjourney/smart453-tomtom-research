@@ -71,7 +71,8 @@ Throughout `docs/`, `research/` and the tool output:
 
 | Tag | Meaning |
 |---|---|
-| **TESTED** | performed on the vehicle described here, with logged answers |
+| **TESTED** | the *procedure* was performed on the vehicle described here, with logged answers |
+| **MOCK-TESTED** | the *code* was exercised only against the mock head unit in `tests/`, never on a vehicle |
 | **DOCUMENTED** | described by a third party (vendor manual, forum guide); not executed by this project |
 | **DERIVED** | computed from a definition or from the recorded answers |
 | **NOT TESTED** | planned or plausible, but never verified |
