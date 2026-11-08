@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "note": "Copy to config/aa_write.json and set to true ONLY for the single write you have decided to perform.",
+  "did": "6C1C",
+  "bit": "0x40 (Android Auto, MSB-first offset 1)",
+  "expect_current": "0x38",
+  "target": "0x78"
+}

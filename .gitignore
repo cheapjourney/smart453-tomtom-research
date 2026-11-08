@@ -1,0 +1,5 @@
+# local settings and run logs — never published
+config/aa_write.json
+logs/
+__pycache__/
+*.pyc

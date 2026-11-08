@@ -1,0 +1,2 @@
+# Runtime dependency of the two command line tools.
+pyserial>=3.5,<4
