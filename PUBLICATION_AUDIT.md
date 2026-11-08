@@ -265,3 +265,84 @@ own risk; the text says so in three places.
 Publishable. No personal data, no vendor material, no third-party asset, no
 credentials, no binaries. The one substantive change is that a protocol sequence is
 now disclosed deliberately, with its scope and its limits stated next to it.
+
+---
+
+## 10. Restructure 2026-11-08 — from research notes to a project
+
+The repository was rebuilt as a guide plus tools. This section records what that
+changed and re-runs the checks.
+
+### 10.1 What moved and what was added
+
+| Change | Detail |
+|---|---|
+| `RESEARCH.md` | moved to `research/RESEARCH.md` (git rename, history kept) |
+| `RESULTS/…2026-11-08.md` | moved to `research/results/` |
+| `docs/` | ten new chapters: compatibility, hardware, installation, connection, identification, activation, verification, CarPlay plan, troubleshooting, recovery |
+| `tools/` | new: `ecu_config.py`, `obd_transport.py`, `read_config.py`, `write_config.py`, `requirements.txt` |
+| `tests/` | new: `mock_ecu.py`, `test_ecu_config.py`, `test_write_config.py` — 33 offline tests |
+| `LICENSE-CODE` | new: MIT for `tools/` and `tests/` |
+| `NOTICE.md` | rewritten: CC BY 4.0 for text, MIT for code, third-party carve-out |
+| `config/aa_write.example.json` | example gate, disabled; the real file is git-ignored |
+| `.gitignore` | excludes `config/aa_write.json`, `logs/`, caches |
+
+The original research text and the result report are unchanged apart from their
+paths.
+
+### 10.2 Code provenance
+
+Every line under `tools/` and `tests/` was written for this project during the
+work described in `research/`. Nothing is copied from DDT4All, from a vendor, or
+from any other repository. The tools use the Python standard library plus
+`pyserial`.
+
+DDT4All is referenced in two ways only: as a source of the *encoding convention*
+(a fact about how its descriptors number bits, verified by reading its source) and
+as an alternative route the reader may choose. No code, no database, no data file
+from it is included. DDT4All is GPL-3.0; the MIT/CC-BY split here does not conflict
+with it because there is no derived code.
+
+The Bluetooth bridge lives in a **separate** repository
+(`obdlink-macos-rfcomm-bridge`) and is referenced by URL, not copied.
+
+### 10.3 Re-run of the checks
+
+Checks run over all tracked text and code files:
+
+| Check | Result |
+|---|---|
+| Account name, home paths, `/Users/…` | clean |
+| RFC 1918 addresses, hostnames | clean |
+| MAC addresses, adapter serial numbers | clean |
+| VIN patterns | clean |
+| Credentials, tokens, keys | clean |
+| Vendor artefacts by filename (`TOMTOM.000`, `.apk`, `.odex`, `ecu.zip`) | clean — only the audit's own exclusion table mentions them |
+| Proprietary database content | none present |
+| Binaries, images, archives | none |
+| Absolute private paths in code | none — tools resolve paths relative to themselves |
+| Third-party code without licence | none |
+| Offline test suite | 33 tests, all pass |
+| Write tool locked by default | verified: refuses without both switches |
+
+### 10.4 Risk changes from publishing code
+
+The repository now ships a working writer. That raises the practical risk compared
+with a documentation-only release, and the mitigations are in the code rather than
+in prose:
+
+- the tool refuses to start without two independent switches,
+- it verifies part number, current value, voltage and target before sending,
+- it sends exactly one frame and never retries,
+- it cannot clear the bit again, so it cannot be used to "try things",
+- session commands are limited to one `10 C0` behind an explicit flag; every other
+  session or reset command is refused by the transport layer and covered by a test.
+
+**Residual risk: moderate.** Accepted by the repository owner. The documentation
+states the limits next to every claim.
+
+### 10.5 Verdict of the restructure
+
+The repository is coherent as a project: guide, tools, tests, research, licences.
+No personal data, no vendor material, no unsourced claims. The visibility remains
+**private** until the owner gives explicit release approval.
