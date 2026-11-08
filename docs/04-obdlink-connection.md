@@ -38,7 +38,7 @@ bridges that to a pseudo-terminal. The bridge moves Bluetooth bytes; it does not
 filter diagnostic commands — that is done by the tools in `tools/`.
 
 ```bash
-./scripts/start.sh --address AA-BB-CC-DD-EE-FF --pty /tmp/obdlink-mx
+./scripts/start.sh --address <OBDLINK-ADDRESS> --pty /tmp/obdlink-mx
 #   tcp : 127.0.0.1:35100 (loopback only)
 #   pty : /tmp/obdlink-mx -> /dev/ttys004
 

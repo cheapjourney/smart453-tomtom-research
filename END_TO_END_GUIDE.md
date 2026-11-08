@@ -108,20 +108,48 @@ Find the adapter's address if you do not have it:
 
 ```bash
 system_profiler SPBluetoothDataType | grep -A2 "OBDLink"
-# Address: 00:04:3E:8A:DB:7C   → use 00-04-3E-8A-DB-7C below
+# Address: XX:XX:XX:XX:XX:XX
 ```
+
+In every command below, **`<OBDLINK-ADDRESS>` is a placeholder** — replace it with
+your own adapter's address, written with dashes (`XX-XX-XX-XX-XX-XX`). Do not copy
+an address from an example; the one in this repository is a placeholder, and an
+address from someone else's car is at best useless and at worst confusing.
 
 ---
 
-## Step 5 — Start the bridge with the right PTY name  ·  **HARDWARE**
+## Step 5 — Verify, then start the bridge  ·  **HARDWARE**
 
 **The bridge defaults to `/tmp/obdlink`. This project uses `/tmp/obdlink-mx`.**
-Pass the path explicitly, or every later command will point at a device that does
-not exist:
+Pass the path explicitly everywhere, or later commands will point at a device that
+does not exist.
+
+Two commands, **in this order**:
+
+### 5a — one-shot verification first
+
+`verify.sh` starts a bridge, sends one local `ATI`, checks the prompt, and stops the
+bridge again when it exits (its `trap` calls `stop.sh`). It therefore needs the
+adapter free and **no other bridge running**:
 
 ```bash
 cd ~/smart453/obdlink-macos-rfcomm-bridge
-./scripts/start.sh --address 00-04-3E-8A-DB-7C --pty /tmp/obdlink-mx
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/verify.sh --address <OBDLINK-ADDRESS>
+```
+
+- exit 0 — the adapter answered; the bridge has already been stopped again and the
+  PTY link removed.
+- `error: bridge already running` (exit 4) — something is still up; run
+  `OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh` and try again.
+
+Running `verify.sh` *after* starting the bridge in 5b cannot work, because the
+bridge refuses a second instance.
+
+### 5b — then start the long-running bridge
+
+```bash
+cd ~/smart453/obdlink-macos-rfcomm-bridge
+./scripts/start.sh --address <OBDLINK-ADDRESS> --pty /tmp/obdlink-mx
 ```
 
 Expected:
@@ -132,6 +160,8 @@ bridge ready
   pty : /tmp/obdlink-mx -> /dev/ttys004
 ```
 
+Leave this terminal open for the whole session.
+
 Two failure signatures worth recognising:
 
 | Message | Cause |
@@ -139,22 +169,27 @@ Two failure signatures worth recognising:
 | `baseband connection failed` after ~15 s | adapter asleep, unpowered, or held by a phone |
 | `error: bridge already running` | an earlier run is still up; stop it first |
 
-Leave this terminal open for the whole session. Stop it at the end with the same
-path named in the environment — `stop.sh` otherwise looks for its default and
-leaves the link behind:
+### 5c — stop it at the end, from the bridge directory
+
+`stop.sh` reads the PTY path from the environment, not from a flag, and it looks for
+its own scripts relative to the current directory. Run it **inside the bridge
+repository** — or call it by absolute path — and name the path:
 
 ```bash
+cd ~/smart453/obdlink-macos-rfcomm-bridge
 OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
+# bridge stopped
 ```
 
-`verify.sh` also takes the path from the environment, not from a flag:
+Equivalently, from anywhere:
 
 ```bash
-OBDLINK_PTY=/tmp/obdlink-mx ./scripts/verify.sh --address 00-04-3E-8A-DB-7C
+OBDLINK_PTY=/tmp/obdlink-mx ~/smart453/obdlink-macos-rfcomm-bridge/scripts/stop.sh
 ```
 
-It sends one local `ATI`, which never reaches a vehicle bus, and exits 0 if the
-adapter answered.
+Without `OBDLINK_PTY` the script looks for `/tmp/obdlink` and leaves
+`/tmp/obdlink-mx` behind. The pid files still stop the processes, but the stale
+symlink survives and confuses the next start.
 
 Reference: [`docs/04-obdlink-connection.md`](docs/04-obdlink-connection.md).
 
@@ -239,6 +274,7 @@ Reference: [`docs/05-headunit-identification.md`](docs/05-headunit-identificatio
 ## Step 9 — Read and record the original value  ·  **HARDWARE**
 
 ```bash
+cd ~/smart453/smart453-tomtom-research
 ./tools/read_config.py --port /tmp/obdlink-mx --json logs/before.json
 ```
 
@@ -287,6 +323,7 @@ is **not** documented vendor behaviour and not a rule for every Smart 453.
 ### Run it
 
 ```bash
+cd ~/smart453/smart453-tomtom-research
 cp config/aa_write.example.json config/aa_write.json
 # edit config/aa_write.json: "enabled": true     (the first of two switches)
 
@@ -324,7 +361,11 @@ of that day, which speaks the same protocol in a less strict implementation.
 Always set the gate back afterwards and stop the bridge:
 
 ```bash
-# config/aa_write.json → "enabled": false
+# 1) lock the tool again
+#    ~/smart453/smart453-tomtom-research/config/aa_write.json → "enabled": false
+
+# 2) stop the bridge — its script lives in the bridge repository
+cd ~/smart453/obdlink-macos-rfcomm-bridge
 OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
 ```
 
@@ -429,3 +470,106 @@ run its self-test, install the tools, run the 36 tests, then point `read_config.
 and `write_config.py` at a mock head unit behind a PTY at `/tmp/obdlink-mx`. That
 is exactly how the commands in this guide were checked, including the write path
 and the read-back, without touching a vehicle.
+
+---
+
+## Appendix — rehearse the whole thing without a car
+
+Everything except steps 4, 5b and 8–14 can be exercised on a desk. This is how the
+commands above were checked.
+
+**1. Bridge, offline part**
+
+```bash
+cd ~/smart453/obdlink-macos-rfcomm-bridge
+make && make test          # 9 passed, 0 failed
+```
+
+Starting the bridge without a paired adapter fails cleanly, and leaves nothing
+behind — worth seeing once so you recognise it later:
+
+```bash
+cd ~/smart453/obdlink-macos-rfcomm-bridge
+# 11-22-33-44-55-66 is a deliberately non-existent address, not a real adapter
+./scripts/start.sh --address 11-22-33-44-55-66 --pty /tmp/obdlink-mx
+# error: bridge exited during startup:
+# device: 11:22:33:44:55:66 paired=false
+# error: baseband connection failed - is the device awake and in range?
+# exit code 5, no pidfile left, no /tmp/obdlink-mx
+```
+
+`verify.sh` behaves the same way and exits 1; its cleanup runs regardless:
+
+```bash
+cd ~/smart453/obdlink-macos-rfcomm-bridge
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/verify.sh --address 11-22-33-44-55-66
+# RESULT: FAIL (bridge did not start)      exit code 1
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
+# bridge was not running
+```
+
+**2. Tools, offline part**
+
+```bash
+cd ~/smart453/smart453-tomtom-research
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r tools/requirements.txt
+python -m unittest discover -s tests -v     # 36 tests, OK
+```
+
+**3. The diagnostic sequence against a mock head unit**
+
+The mock in `tests/mock_ecu.py` speaks the adapter protocol. Put it behind a PTY at
+the same path the real bridge uses, and the tools cannot tell the difference:
+
+```bash
+cd ~/smart453/smart453-tomtom-research
+# terminal A: mock ECU on 127.0.0.1:35999
+python3 - 35999 <<'PY'
+import sys, time, socket, threading
+sys.path.insert(0, "tests")
+from mock_ecu import MockEcu
+m = MockEcu("positive"); m._srv.close()
+m._srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+m._srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+m._srv.bind(("127.0.0.1", 35999)); m._srv.listen(1)
+threading.Thread(target=m._run, daemon=True).start()
+while True: time.sleep(1)
+PY
+
+# terminal B: PTY at the documented path
+socat "PTY,link=/tmp/obdlink-mx,raw,echo=0" TCP:127.0.0.1:35999
+
+# terminal C
+./tools/read_config.py --port /tmp/obdlink-mx
+#   identity … '259156244R'   config 0x38 … Android Auto: NOT PRESENT
+
+echo '{"enabled": true}' > /tmp/gate.json
+./tools/write_config.py --port /tmp/obdlink-mx --gate /tmp/gate.json \
+    --log /tmp/write.jsonl --arm --session-after-sales \
+    --expect-current 38 --confirm-target 78 --min-voltage 12.5
+#   session : no positive answer (suppress bit) - UNCONFIRMED
+#   write   : 2E6C1C78
+#   accepted: 6E 6C 1C
+#   readback: 0x78
+
+./tools/read_config.py --port /tmp/obdlink-mx | head -3
+#   config  : 0x78 … Android Auto feature Present
+
+./tools/write_config.py --port /tmp/obdlink-mx --gate /tmp/gate.json \
+    --log /tmp/write2.jsonl --arm --session-after-sales \
+    --expect-current 38 --confirm-target 78 --min-voltage 12.5
+#   ABORT[3]: current 0x78 != expected 0x38      exit code 3
+```
+
+Clean up:
+
+```bash
+pkill -f "socat PTY,link=/tmp/obdlink-mx"
+rm -f /tmp/obdlink-mx /tmp/gate.json /tmp/write.jsonl /tmp/write2.jsonl
+```
+
+The last line is the point of the rehearsal: a second run is refused because the
+value is no longer the expected one. Nothing here replaces step 8 — the mock
+answers with values this project put into it, which proves the code path, not the
+car.

@@ -94,11 +94,11 @@ cd obdlink-macos-rfcomm-bridge
 make                 # builds build/obdlink-rfcomm with swiftc
 make test            # 9 hardware-free checks
 
-./scripts/start.sh --address AA-BB-CC-DD-EE-FF --pty /tmp/obdlink-mx
+./scripts/start.sh --address <OBDLINK-ADDRESS> --pty /tmp/obdlink-mx
 ```
 
 The address is your adapter's, as shown in *System Settings → Bluetooth* (the
-bridge accepts `AA-BB-CC-DD-EE-FF` or colon-separated). Leave the terminal open.
+bridge accepts `XX-XX-XX-XX-XX-XX` or colon-separated). Leave the terminal open.
 
 Stop it with the same path named in the environment, otherwise `stop.sh` looks for
 its default and leaves the PTY link behind:

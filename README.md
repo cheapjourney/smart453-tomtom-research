@@ -120,7 +120,7 @@ The bridge defaults to `/tmp/obdlink`; everything in this repository uses
 
 ```bash
 # terminal 1 — keep this running
-./scripts/start.sh --address AA-BB-CC-DD-EE-FF --pty /tmp/obdlink-mx
+./scripts/start.sh --address <OBDLINK-ADDRESS> --pty /tmp/obdlink-mx
 # bridge ready
 #   tcp : 127.0.0.1:35100 (loopback only)
 #   pty : /tmp/obdlink-mx -> /dev/ttys004
