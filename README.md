@@ -1,102 +1,138 @@
-# smart453-tomtom-research
+# Smart 453 — Android Auto on the factory TomTom head unit
 
-Notes from a read-only investigation of the TomTom-based head unit in a Smart 453
-(W453): what the unit is, how its diagnostic interface behaves, and how its
-phone-projection stacks are put together.
+Documentation and small, auditable tools for reading and changing the configuration
+of the TomTom-built head unit in a Smart 453, with a long-term interest in getting
+CarPlay onto the same screen through an adapter.
 
-> **Status: research notes plus one documented result.** The notes were read-only
-> until 2026-11-08; on that date one configuration byte of the head unit was
-> written on one vehicle and confirmed by read-back and by the user interface. That
-> case is recorded in `RESULTS/` and summarised in `RESEARCH.md` section 9. It is a
-> single documented case, not a validated general procedure. Every claim is
-> labelled with how it was obtained — see *Evidence levels* below.
+This repository is the work of one vehicle owner on one car. It records what was
+measured, what was changed, and what is still unknown. It is not a vendor
+procedure, and it is not affiliated with TomTom, smart, Renault, Mercedes-Benz or
+Google.
 
-## What this is
+---
 
-- A record of observations made on one vehicle with an off-the-shelf OBD-II
-  adapter, using only reading diagnostic services.
-- An architectural description of the unit's software, derived from a publicly
-  downloadable firmware image that the vendor distributes.
-- A record of one Android Auto activation performed by the vehicle's owner on
-  2026-11-08, with the exact diagnostic frames and answers.
+## Status of the project
 
-## What this is not
+| Area | State |
+|---|---|
+| Head unit identified, diagnostic interface documented | done, on the vehicle |
+| Configuration byte understood and decoded | done |
+| Android Auto activated (`0x38` → `0x78`) | **done on 2026-11-08**, written and read back |
+| Android Auto entries visible in the head unit menu | observed after a restart |
+| Android Auto projection with a phone over USB | **not tested** |
+| CarPlay through a CarLinkit T-Box Lite S | **not tested** |
+| Behaviour on other part numbers or software versions | unknown |
 
-- Not a coding, flashing or retrofit guide. The activation in `RESULTS/` is
-  described as a case history, not as a procedure to follow: the target value
-  depends on the flags a given unit already reports.
-- Not a redistribution of vendor firmware, extracted applications or vendor
-  configuration databases.
-- Not affiliated with, endorsed by or supported by TomTom, smart, Renault or
-  Mercedes-Benz. Product names are used descriptively only.
-- Not a claim that Android Auto works elsewhere, that projection over USB has been
-  demonstrated, or that CarPlay can be added. Only the configuration change and the
-  resulting menu entries were observed.
+The difference between "configured", "visible" and "working" is the point of
+[`docs/07-verification.md`](docs/07-verification.md). A menu entry is not a working
+projection.
 
-## Evidence levels
+## What was actually changed
 
-Every factual statement in `RESEARCH.md` carries one of these tags:
+One byte, one bit, on data identifier `0x6C1C`:
+
+```
+before  0x38   0011 1000   MirrorLink, MW and LW enabled, Android Auto absent
+mask    0x40   0100 0000   Android Auto only
+after   0x78   0111 1000   nothing else moved
+```
+
+The write needed the head unit's after-sales diagnostic session (`10 C0`); in the
+default session it was refused with `7F 2E 7F`. Read-back confirmed `0x78`. After a
+restart the head unit shows the Android Auto entries.
+
+**`0x78` is not a universal value.** The correct target is `current | 0x40`, where
+`current` is what your own unit reports. The tool enforces exactly that.
+
+## Start here
+
+| If you want to… | Read |
+|---|---|
+| know whether your car is covered | [`docs/01-compatibility.md`](docs/01-compatibility.md) |
+| buy the right adapter | [`docs/02-required-hardware.md`](docs/02-required-hardware.md) |
+| install the tools | [`docs/03-software-installation.md`](docs/03-software-installation.md) |
+| get a reliable connection | [`docs/04-obdlink-connection.md`](docs/04-obdlink-connection.md) |
+| identify your head unit, read-only | [`docs/05-headunit-identification.md`](docs/05-headunit-identification.md) |
+| understand the activation | [`docs/06-android-auto-activation.md`](docs/06-android-auto-activation.md) |
+| verify a result | [`docs/07-verification.md`](docs/07-verification.md) |
+| plan CarPlay | [`docs/08-carplay-adapter.md`](docs/08-carplay-adapter.md) |
+| fix a problem | [`docs/troubleshooting.md`](docs/troubleshooting.md) |
+| understand the risk | [`docs/recovery-and-risks.md`](docs/recovery-and-risks.md) |
+
+## The tools
+
+Two command line programs and a pure decoder. One runtime dependency: `pyserial`.
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r tools/requirements.txt
+
+# read-only: identity + configuration byte
+./tools/read_config.py --port /tmp/obdlink-mx
+
+# write: single frame, locked twice, refuses anything unexpected
+cp config/aa_write.example.json config/aa_write.json   # then edit: enabled=true
+./tools/write_config.py --port /tmp/obdlink-mx --arm --session-after-sales \
+    --expect-current 38 --confirm-target 78 --min-voltage 12.5
+```
+
+`tools/write_config.py` verifies the part number, the current value, the supply
+voltage and the target before it sends anything, sends exactly one frame, reads the
+value back once, and never retries. It cannot clear the Android Auto bit again —
+see `docs/recovery-and-risks.md` for why, and for how a restore is done instead.
+
+Offline tests, no car required:
+
+```bash
+python -m unittest discover -s tests -v      # 33 tests
+```
+
+## Layout
+
+```
+docs/        the guide, chapter by chapter
+tools/       read_config.py, write_config.py, ecu_config.py, obd_transport.py
+tests/       mock head unit and the offline test suite
+research/    the underlying investigation and the original result report
+config/      example configuration (the real one is git-ignored)
+```
+
+`research/RESEARCH.md` holds the original investigation: the firmware analysis, the
+projection architecture, the software gates and the bit-encoding derivation.
+`research/results/ANDROID_AUTO_ACTIVATION_2026-11-08.md` is the full account of the
+activation. Public sources are listed in [`REFERENCES.md`](REFERENCES.md).
+
+## Evidence standard
+
+Every factual statement is tagged:
 
 | Tag | Meaning |
 |---|---|
-| **[LIVE]** | Read from the vehicle with the adapter, at least once, reproducible |
-| **[OFFLINE]** | Derived from the vendor's public firmware image on a workstation, no vehicle involved |
-| **[PUBLIC]** | Taken from a public document or a public repository, cited in `REFERENCES.md` |
-| **[REPORTED]** | Stated by the project owner and not independently verified here |
-| **[OPEN]** | Unknown; listed as an open question |
+| **[LIVE]** / **TESTED** | performed on the vehicle, with logged answers |
+| **[DOCUMENTED]** | described by a third party, not executed here |
+| **[OFFLINE]** | derived from the vendor's published firmware image, no vehicle |
+| **[PUBLIC]** | taken from a public document or repository |
+| **[REPORTED]** | stated by the vehicle owner, not independently verified |
+| **[OPEN]** / **NOT TESTED** | unknown or never attempted |
 
-A statement never appears without a tag. Where a conclusion rests on more than one
-kind of evidence, all applicable tags are given.
+A claim without a tag is an open question.
 
-## Files
+## Safety
 
-| File | Content |
-|---|---|
-| `RESEARCH.md` | The findings: environment, identity, diagnostics, architecture, encoding |
-| `REFERENCES.md` | Public sources, each with a URL and what it supports |
-| `PUBLICATION_AUDIT.md` | What was deliberately left out and why, plus the remaining risks |
-| `RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md` | Full account of the one activation performed |
-
-## Headline findings
-
-1. The unit identifies itself over diagnostics with Renault part number
-   `259156244R`, which maps in the vendor's certification document to TomTom
-   model `1ME09` / project `Strasbourg`. **[LIVE] [PUBLIC]**
-2. It answers on the 11-bit diagnostic pair `0x747` (request) / `0x767`
-   (response) with normal ISO-TP addressing. **[LIVE]**
-3. It runs Android 2.2 (API 8) on an ARMv7 OMAP3 SoC. **[OFFLINE]**
-4. It ships **two** independent phone-projection stacks as add-ons — a MirrorLink
-   stack and an Android Auto stack — both fully implemented, both invisible in the
-   normal app list. **[OFFLINE]**
-5. There is no CarPlay stack in the firmware. **[OFFLINE]**
-6. Android Auto was activated on one vehicle on 2026-11-08 by setting a single
-   configuration bit (`0x38` → `0x78`, mask `0x40`) after switching the head unit
-   into its after-sales diagnostic session. The write was accepted and read back;
-   the UI shows the Android Auto entries after a restart. Projection over USB and
-   CarPlay remain untested. **[LIVE] [REPORTED] [OPEN]**
-
-## Scope and safety
-
-These notes describe a vehicle's internal systems. If you use them, you are
-responsible for what you do with them:
-
-- Diagnostics on a modern vehicle can affect safety-relevant systems if used
-  carelessly. Reading is not automatically safe just because it is reading.
-- The unit is part of the car. Bricking it is expensive and may not be
-  recoverable.
-- Modifying a head unit can create driver distraction, which is regulated in most
-  jurisdictions.
-
-Nothing in this repository is a substitute for the manufacturer's service
-information.
+- Changing a configuration byte in a head unit is a modification of a
+  safety-relevant system. It can end with a unit that no longer answers.
+- There is **no verified recovery path** beyond writing the original value back
+  over the same diagnostic channel, and that only works while the unit still
+  answers.
+- A stable external supply is advisable. A voltage dip during a write leaves the
+  outcome undetermined.
+- Nothing here is a substitute for the manufacturer's service information, and
+  nothing here is a promise that any of it works on your car.
 
 ## License
 
-The documentation text in this repository is licensed **CC BY 4.0**. The unmodified
-legal code is in [`LICENSE`](LICENSE); what the licence covers — and what it
-explicitly does not — is in [`NOTICE.md`](NOTICE.md).
+Documentation: **CC BY 4.0** — see [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
+Code in `tools/` and `tests/`: **MIT** — see [`LICENSE-CODE`](LICENSE-CODE).
 
-In short: it covers only the original prose written for this repository. It grants
-no rights in any vendor firmware, software, database or documentation, and no rights
-in any trademark. Cited third-party material is listed in
-[`REFERENCES.md`](REFERENCES.md) and is not redistributed here.
+No vendor firmware, application, database or documentation is redistributed here.
+Third-party material is cited in [`REFERENCES.md`](REFERENCES.md).
