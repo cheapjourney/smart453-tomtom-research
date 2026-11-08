@@ -41,7 +41,7 @@ connection.
 python -m unittest discover -s tests -v
 ```
 
-Expected: **36 tests, all pass**. If `socat` is missing the write-tool tests fail
+Expected: **40 tests, all pass**. If `socat` is missing the write-tool tests fail
 with a clear error; install it first:
 
 ```bash
@@ -94,11 +94,13 @@ cd obdlink-macos-rfcomm-bridge
 make                 # builds build/obdlink-rfcomm with swiftc
 make test            # 9 hardware-free checks
 
-./scripts/start.sh --address <OBDLINK-ADDRESS> --pty /tmp/obdlink-mx
+ADDR="AA:BB:CC:DD:EE:FF"      # ← replace with YOUR adapter's address
+./scripts/start.sh --address "$ADDR" --pty /tmp/obdlink-mx
 ```
 
-The address is your adapter's, as shown in *System Settings → Bluetooth* (the
-bridge accepts `XX-XX-XX-XX-XX-XX` or colon-separated). Leave the terminal open.
+`ADDR` is your adapter's address, as shown in *System Settings → Bluetooth*;
+dashes and colons both work. Keep the quotes, or an empty or odd value breaks the
+call. Leave the terminal open.
 
 Stop it with the same path named in the environment, otherwise `stop.sh` looks for
 its default and leaves the PTY link behind:

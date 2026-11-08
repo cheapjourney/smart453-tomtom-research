@@ -191,3 +191,24 @@ been corrected:
 | `tools/read_config.py`, `tools/write_config.py` | docstring states mock-tested only, never run on a vehicle |
 
 Nothing else changed. The test suite still reports 36/36 after the edit.
+
+---
+
+## 10. Post-release fixes found in review
+
+Two reproducibility defects were found after publication and fixed:
+
+1. **`--address <OBDLINK-ADDRESS>` was not runnable.** In bash the angle brackets
+   are a redirection, so the command failed with
+   `bash: OBDLINK-ADDRESS: No such file or directory`. Every published example now
+   stores the address in a shell variable and passes it quoted:
+   `ADDR="AA:BB:CC:DD:EE:FF"; ./scripts/start.sh --address "$ADDR" …`.
+2. **`read_config.py --json logs/before.json` failed on a fresh clone**, because
+   `logs/` is git-ignored and the tool did not create the parent directory. The
+   tool now creates it; `tests/test_read_config.py` is the regression test and
+   asserts the file is written into a directory that did not exist.
+
+Suite: **40 tests** (was 36; four read-path tests added, one of them the regression
+above). All 39 copy-pasteable shell blocks in the documentation were parsed with
+`bash -n` — 0 syntax errors — and the address form was additionally verified
+against the real bridge script.

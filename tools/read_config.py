@@ -107,8 +107,10 @@ def main(argv=None) -> int:
             except Exception:
                 pass
         if args.json:
-            Path(args.json).write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
-            print(f"written: {args.json}")
+            out = Path(args.json).expanduser()
+            out.parent.mkdir(parents=True, exist_ok=True)   # logs/ is git-ignored
+            out.write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
+            print(f"written: {out}")
     return code
 
 

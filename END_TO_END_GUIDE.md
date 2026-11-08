@@ -111,10 +111,16 @@ system_profiler SPBluetoothDataType | grep -A2 "OBDLink"
 # Address: XX:XX:XX:XX:XX:XX
 ```
 
-In every command below, **`<OBDLINK-ADDRESS>` is a placeholder** — replace it with
-your own adapter's address, written with dashes (`XX-XX-XX-XX-XX-XX`). Do not copy
-an address from an example; the one in this repository is a placeholder, and an
-address from someone else's car is at best useless and at worst confusing.
+Put **your own** address into a shell variable once, and use the variable from
+there on. Angle brackets are deliberately avoided: `--address <FOO>` is not a
+placeholder in bash, it is a redirection, and the command fails in a confusing way.
+
+```bash
+ADDR="AA:BB:CC:DD:EE:FF"     # ← replace with YOUR adapter's address
+                             #   dashes (AA-BB-…) and colons both work
+```
+
+Keep the quotes. Every command below uses `"$ADDR"`.
 
 ---
 
@@ -134,7 +140,7 @@ adapter free and **no other bridge running**:
 
 ```bash
 cd ~/smart453/obdlink-macos-rfcomm-bridge
-OBDLINK_PTY=/tmp/obdlink-mx ./scripts/verify.sh --address <OBDLINK-ADDRESS>
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/verify.sh --address "$ADDR"
 ```
 
 - exit 0 — the adapter answered; the bridge has already been stopped again and the
@@ -149,7 +155,7 @@ bridge refuses a second instance.
 
 ```bash
 cd ~/smart453/obdlink-macos-rfcomm-bridge
-./scripts/start.sh --address <OBDLINK-ADDRESS> --pty /tmp/obdlink-mx
+./scripts/start.sh --address "$ADDR" --pty /tmp/obdlink-mx
 ```
 
 Expected:

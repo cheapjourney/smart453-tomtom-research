@@ -90,7 +90,7 @@ see `docs/recovery-and-risks.md` for why, and for how a restore is done instead.
 Offline tests, no car required:
 
 ```bash
-python -m unittest discover -s tests -v      # 36 tests
+python -m unittest discover -s tests -v      # 40 tests
 ```
 
 ## Companion project: OBDLink macOS Bluetooth RFCOMM Bridge
@@ -120,7 +120,8 @@ The bridge defaults to `/tmp/obdlink`; everything in this repository uses
 
 ```bash
 # terminal 1 — keep this running
-./scripts/start.sh --address <OBDLINK-ADDRESS> --pty /tmp/obdlink-mx
+ADDR="AA:BB:CC:DD:EE:FF"      # ← replace with YOUR adapter's address
+./scripts/start.sh --address "$ADDR" --pty /tmp/obdlink-mx
 # bridge ready
 #   tcp : 127.0.0.1:35100 (loopback only)
 #   pty : /tmp/obdlink-mx -> /dev/ttys004

@@ -281,7 +281,7 @@ changed and re-runs the checks.
 | `RESULTS/…2026-11-08.md` | moved to `research/results/` |
 | `docs/` | ten new chapters: compatibility, hardware, installation, connection, identification, activation, verification, CarPlay plan, troubleshooting, recovery |
 | `tools/` | new: `ecu_config.py`, `obd_transport.py`, `read_config.py`, `write_config.py`, `requirements.txt` |
-| `tests/` | new: `mock_ecu.py`, `test_ecu_config.py`, `test_write_config.py` — 36 offline tests |
+| `tests/` | new: `mock_ecu.py`, `test_ecu_config.py`, `test_write_config.py` — 40 offline tests |
 | `LICENSE-CODE` | new: MIT for `tools/` and `tests/` |
 | `NOTICE.md` | rewritten: CC BY 4.0 for text, MIT for code, third-party carve-out |
 | `config/aa_write.example.json` | example gate, disabled; the real file is git-ignored |
@@ -322,7 +322,7 @@ Checks run over all tracked text and code files:
 | Binaries, images, archives | none |
 | Absolute private paths in code | none — tools resolve paths relative to themselves |
 | Third-party code without licence | none |
-| Offline test suite | 36 tests, all pass |
+| Offline test suite | 40 tests, all pass |
 | Write tool locked by default | verified: refuses without both switches |
 
 ### 10.4 Risk changes from publishing code
