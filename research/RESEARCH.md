@@ -378,7 +378,7 @@ reversed. Do not read an endian flag as a statement about bit direction. **[PUBL
 A single configuration byte of the head unit was written on this vehicle, by its
 owner, after the read-only phase described above. This section records the
 protocol facts; the full account, including preconditions and limits, is in
-[`RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md`](RESULTS/ANDROID_AUTO_ACTIVATION_2026-11-08.md).
+[`results/ANDROID_AUTO_ACTIVATION_2026-11-08.md`](results/ANDROID_AUTO_ACTIVATION_2026-11-08.md).
 
 ### 9.1 What changed
 

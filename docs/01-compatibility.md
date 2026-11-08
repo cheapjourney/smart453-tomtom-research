@@ -15,7 +15,7 @@ an **Android Auto** stack. Both are add-ons; whether they are usable depends on 
 configuration byte in the head unit, which this project reads and — in one
 documented case — changed.
 
-## Confirmed on this project
+## Measured on this project
 
 | Item | Value | How it was established |
 |---|---|---|

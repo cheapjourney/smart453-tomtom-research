@@ -8,21 +8,21 @@ that was never confirmed is how people waste afternoons.
 
 | Symptom | Cause | Confidence |
 |---|---|---|
-| Adapter visible, connection attempt dies after ~15 s | another Bluetooth client holds it | **confirmed** |
-| Same, with no phone connected | adapter asleep or not powered | **suspected** |
-| `/dev/cu.*` opens instantly, returns nothing | macOS serial-port object stopped initiating | **confirmed** |
-| `NO DATA` on every request | adapter timeout shorter than the unit's answer | **confirmed** |
-| Unit never answers at 500 kbit/s | adapter set to 250 kbit/s | **confirmed** |
-| Write "does nothing", log looks fine | DDT4All in demo/editor mode | **confirmed** |
-| Write rejected with `7F 2E 7F` | no after-sales session | **confirmed** |
+| Adapter visible, connection attempt dies after ~15 s | another Bluetooth client holds it | **cause confirmed** |
+| Same, with no phone connected | adapter asleep or not powered | **cause suspected** |
+| `/dev/cu.*` opens instantly, returns nothing | macOS serial-port object stopped initiating | **cause confirmed** |
+| `NO DATA` on every request | adapter timeout shorter than the unit's answer | **cause confirmed** |
+| Unit never answers at 500 kbit/s | adapter set to 250 kbit/s | **cause confirmed** |
+| Write "does nothing", log looks fine | DDT4All in demo/editor mode | **cause confirmed** |
+| Write rejected with `7F 2E 7F` | no after-sales session | **cause confirmed** |
 | Write rejected with `7F 2E 12` | the unit does not accept the request in that form | **confirmed** (third party) |
-| Configuration changed but menu unchanged | head unit caches the values until restart | **confirmed** |
+| Configuration changed but menu unchanged | head unit caches the values until restart | **cause confirmed** |
 
 ---
 
 ## 1. A phone is holding the Bluetooth connection
 
-**Confirmed.** The adapter accepts one client. A phone paired to it — usually
+**Cause confirmed.** The adapter accepts one client. A phone paired to it — usually
 through an OBD app that reconnects in the background — keeps the link, and the
 laptop's attempt fails.
 
@@ -43,7 +43,7 @@ list. Then retry.
 
 ## 2. The adapter is asleep or unpowered
 
-**Suspected** when no other client is connected and the symptom is the same page
+**Cause suspected** when no other client is connected and the symptom is the same page
 timeout. The MX+ sleeps when the vehicle bus is idle; it wakes on bus traffic.
 
 Try, in this order:
@@ -58,7 +58,7 @@ Try, in this order:
 
 ## 3. macOS serial port opens but returns nothing
 
-**Confirmed.** The persisted `/dev/cu.*` node for the adapter can stop initiating
+**Cause confirmed.** The persisted `/dev/cu.*` node for the adapter can stop initiating
 connections after the first session while the adapter itself is healthy:
 
 - `open()` succeeds in milliseconds,
@@ -71,7 +71,7 @@ re-pair.
 
 ## 4. Adapter timeout is too short
 
-**Confirmed.** With the factory default the unit's answer never arrives:
+**Cause confirmed.** With the factory default the unit's answer never arrives:
 
 ```
 ATAT1 / STPTO not set  →  default 102 ms  →  NO DATA
@@ -83,7 +83,7 @@ does not answer". If you see it, check the timeout before doubting the car.
 
 ## 5. Wrong CAN speed
 
-**Confirmed.** DDT4All decides the speed from the vehicle description and picks
+**Cause confirmed.** DDT4All decides the speed from the vehicle description and picks
 250 kbit/s for the MFD v4.6 file (its metadata says `baudrate: 10400`, which the
 program reads as a 250k hint). With 250 kbit/s on a 500 kbit/s bus nothing answers.
 
@@ -133,7 +133,7 @@ change exactly one thing and record which.
 
 ## 9. Configuration changed, menu unchanged
 
-**Confirmed.** The head unit caches the vehicle configuration in a local database
+**Cause confirmed.** The head unit caches the vehicle configuration in a local database
 and refreshes it at startup or when the vehicle side signals a finished
 end-of-line write. A diagnostic write does neither.
 
