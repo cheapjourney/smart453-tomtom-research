@@ -89,8 +89,33 @@ see `docs/recovery-and-risks.md` for why, and for how a restore is done instead.
 Offline tests, no car required:
 
 ```bash
-python -m unittest discover -s tests -v      # 33 tests
+python -m unittest discover -s tests -v      # 36 tests
 ```
+
+## Companion project: OBDLink macOS Bluetooth RFCOMM Bridge
+
+<https://github.com/cheapjourney/obdlink-macos-rfcomm-bridge>
+
+Under macOS the OBDLink MX+ can stop working on its persisted `/dev/cu.*` device
+after the first session: the port opens without error and then returns nothing,
+while the adapter itself is fine. The companion project solves that by talking to
+the adapter over Bluetooth directly.
+
+- It provides a reliable **RFCOMM/SPP connection** to the OBDLink MX+ on macOS.
+- It was used for the **successful Smart 453 Android Auto activation** described in
+  this repository.
+- It exposes the link as a **local serial port**, typically `/tmp/obdlink-mx`, so
+  any serial tool can use it.
+- It handles **Bluetooth transport only**. It does *not* guard or filter diagnostic
+  commands — that is the job of the tools in this repository, which enforce the
+  read allowlist and the write locks themselves.
+- **A phone can hold the adapter.** If an iPhone is still connected to the OBDLink
+  MX+ over Bluetooth, the Mac cannot connect; the attempt ends in a page timeout
+  after about 15 seconds even though the adapter looks available. Disconnect the
+  phone (or turn its Bluetooth off) before connecting from the Mac.
+
+Setup details: [`docs/03-software-installation.md`](docs/03-software-installation.md)
+and [`docs/04-obdlink-connection.md`](docs/04-obdlink-connection.md).
 
 ## Layout
 

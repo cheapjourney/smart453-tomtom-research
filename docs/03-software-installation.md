@@ -41,7 +41,7 @@ connection.
 python -m unittest discover -s tests -v
 ```
 
-Expected: **33 tests, all pass**. If `socat` is missing the write-tool tests fail
+Expected: **36 tests, all pass**. If `socat` is missing the write-tool tests fail
 with a clear error; install it first:
 
 ```bash
@@ -85,4 +85,6 @@ a separate repository:
 <https://github.com/cheapjourney/obdlink-macos-rfcomm-bridge>
 
 Nothing from that project is copied here; `04-obdlink-connection.md` explains how
-the two fit together.
+the two fit together. A summary of what the bridge does — and the phone-blocks-the-
+adapter trap — is in the README section *Companion project: OBDLink macOS Bluetooth
+RFCOMM Bridge*.

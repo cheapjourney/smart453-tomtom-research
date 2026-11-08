@@ -34,7 +34,9 @@ That is what the companion project does:
 <https://github.com/cheapjourney/obdlink-macos-rfcomm-bridge>
 
 It opens RFCOMM channel 1 to the adapter, publishes a loopback TCP port, and
-bridges that to a pseudo-terminal. From the point of view of the tools in this
+bridges that to a pseudo-terminal. The bridge moves Bluetooth bytes; it does not
+filter diagnostic commands — that is done by the tools in `tools/`. See also the
+README section *Companion project: OBDLink macOS Bluetooth RFCOMM Bridge*. From the point of view of the tools in this
 repository it is simply a serial device:
 
 ```
