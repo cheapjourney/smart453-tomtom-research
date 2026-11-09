@@ -34,11 +34,14 @@ That is what the companion project does:
 <https://github.com/cheapjourney/obdlink-macos-rfcomm-bridge>
 
 It opens RFCOMM channel 1 to the adapter, publishes a loopback TCP port, and
-bridges that to a pseudo-terminal. The bridge moves Bluetooth bytes; it does not
-filter diagnostic commands — that is done by the tools in `tools/`.
+bridges that to a pseudo-terminal. On the legacy v0.1.0 path it moves Bluetooth
+bytes without filtering diagnostic commands; the v0.2.0 secured Unix-socket mode
+adds an adapter-only/vehicle-readonly gate, but that gate does not permit write
+frames. The commands below are the **legacy TCP/PTY path** used by this project's
+activation workflow.
 
 ```bash
-ADDR="AA:BB:CC:DD:EE:FF"      # ← replace with YOUR adapter's address
+ADDR="<adapter-address>"      # ← replace with YOUR adapter's address
 ./scripts/start.sh --address "$ADDR" --pty /tmp/obdlink-mx
 #   tcp : 127.0.0.1:35100 (loopback only)
 #   pty : /tmp/obdlink-mx -> /dev/ttys004

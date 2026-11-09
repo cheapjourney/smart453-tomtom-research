@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OBD dump feasibility row",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "feasibility_id",
+    "ecu_id",
+    "method",
+    "method_name",
+    "technical_feasibility",
+    "completeness",
+    "risk",
+    "evidence_ids"
+  ],
+  "properties": {
+    "feasibility_id": {
+      "type": "string"
+    },
+    "ecu_id": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "method_name": {
+      "type": "string"
+    },
+    "technical_feasibility": {
+      "type": "string",
+      "enum": [
+        "NO",
+        "NO_DOCUMENTED",
+        "UNKNOWN",
+        "PARTIAL",
+        "PLAUSIBLE",
+        "NOT_APPLICABLE",
+        "YES_PARTIAL"
+      ]
+    },
+    "completeness": {
+      "type": "string"
+    },
+    "risk": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "medium-high",
+        "high",
+        "unknown"
+      ]
+    },
+    "evidence_ids": {
+      "type": "string"
+    }
+  }
+}

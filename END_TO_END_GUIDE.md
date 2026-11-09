@@ -1,9 +1,16 @@
-# End-to-end guide — from a blank Mac to a verified Android Auto activation
+# Historical end-to-end record — Android Auto activation case
 
-This is the whole job in one page: hardware, both repositories, the Bluetooth
-bridge, the diagnostic tools, the activation and the verification. It is written
-for someone who has never seen the project and has no access to the notes it grew
-out of.
+> **Historical single-case record — not a universal Smart 453 activation guide.**
+> This page documents one observed head-unit/hardware/software combination:
+> part number `259156244R`, software `11.346.3206684-8060`. The write and read-back
+> were confirmed on that unit only. Actual Android Auto projection with a phone was
+> not tested, and no recovery path is verified. Changes to control units can cause
+> malfunctions. Do not copy `0x78` or these frames to another vehicle.
+
+This page records the historical workflow: hardware, both repositories, the
+Bluetooth bridge, the diagnostic tools, the activation and the verification. It is
+written for someone who has never seen the project and has no access to the notes it
+grew out of. It is a record of one case, not a supported universal procedure.
 
 **Read the status column of every step.** Only some of them can be reproduced
 without a car, and only some of them were ever verified on a vehicle.
@@ -59,9 +66,11 @@ git clone https://github.com/cheapjourney/smart453-tomtom-research.git
 
 Two repositories, on purpose:
 
-- **obdlink-macos-rfcomm-bridge** — Bluetooth transport only. It moves bytes
-  between the adapter and a local serial port. It does **not** filter or allowlist
-  anything.
+- **obdlink-macos-rfcomm-bridge** — Bluetooth transport between the adapter and a
+  local serial port. The legacy v0.1.0 TCP/PTY path used by this guide is ungated;
+  the v0.2.0 secured Unix socket adds an adapter-only/vehicle-readonly gate, but
+  that gate blocks the `2E` write this guide uses. It does **not** provide the
+  read/write policy of this repository.
 - **smart453-tomtom-research** — the diagnostic tools, the guide and the tests.
   This is where the read allowlist and the write locks live.
 
@@ -116,7 +125,7 @@ there on. Angle brackets are deliberately avoided: `--address <FOO>` is not a
 placeholder in bash, it is a redirection, and the command fails in a confusing way.
 
 ```bash
-ADDR="AA:BB:CC:DD:EE:FF"     # ← replace with YOUR adapter's address
+ADDR="ADAPTER-ADDRESS"         # ← replace ADAPTER-ADDRESS with YOUR adapter's address
                              #   dashes (AA-BB-…) and colons both work
 ```
 
@@ -225,7 +234,7 @@ python -m unittest discover -s tests -v
 Expected:
 
 ```
-Ran 36 tests in 12.3s
+Ran 40 tests
 OK
 ```
 
@@ -472,7 +481,7 @@ Reference: [`docs/08-carplay-adapter.md`](docs/08-carplay-adapter.md).
 ## Offline rehearsal
 
 Everything that does not need a car can be rehearsed end to end: build the bridge,
-run its self-test, install the tools, run the 36 tests, then point `read_config.py`
+run its self-test, install the tools, run the 40 tests, then point `read_config.py`
 and `write_config.py` at a mock head unit behind a PTY at `/tmp/obdlink-mx`. That
 is exactly how the commands in this guide were checked, including the write path
 and the read-back, without touching a vehicle.
@@ -496,10 +505,11 @@ behind — worth seeing once so you recognise it later:
 
 ```bash
 cd ~/smart453/obdlink-macos-rfcomm-bridge
-# 11-22-33-44-55-66 is a deliberately non-existent address, not a real adapter
-./scripts/start.sh --address 11-22-33-44-55-66 --pty /tmp/obdlink-mx
+# replace ADAPTER-ADDRESS with a deliberately non-existent address
+ADDR="ADAPTER-ADDRESS"
+./scripts/start.sh --address "$ADDR" --pty /tmp/obdlink-mx
 # error: bridge exited during startup:
-# device: 11:22:33:44:55:66 paired=false
+# device: ADAPTER-ADDRESS paired=false
 # error: baseband connection failed - is the device awake and in range?
 # exit code 5, no pidfile left, no /tmp/obdlink-mx
 ```
@@ -508,7 +518,8 @@ cd ~/smart453/obdlink-macos-rfcomm-bridge
 
 ```bash
 cd ~/smart453/obdlink-macos-rfcomm-bridge
-OBDLINK_PTY=/tmp/obdlink-mx ./scripts/verify.sh --address 11-22-33-44-55-66
+ADDR="ADAPTER-ADDRESS"
+OBDLINK_PTY=/tmp/obdlink-mx ./scripts/verify.sh --address "$ADDR"
 # RESULT: FAIL (bridge did not start)      exit code 1
 OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
 # bridge was not running
@@ -520,7 +531,7 @@ OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
 cd ~/smart453/smart453-tomtom-research
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r tools/requirements.txt
-python -m unittest discover -s tests -v     # 36 tests, OK
+python -m unittest discover -s tests -v     # 40 tests, OK
 ```
 
 **3. The diagnostic sequence against a mock head unit**

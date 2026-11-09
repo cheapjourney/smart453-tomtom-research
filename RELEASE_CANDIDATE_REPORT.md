@@ -1,5 +1,12 @@
 # Release candidate report — 2026-11-08
 
+> **Historical report (2026-11-08).** This is the original pre-publication
+> engineering report, retained unchanged. Its "private" and 36-test statements
+> describe the 2026-11-08 state. Status at the 2026-11-09 review: the
+> `docs/phase8.2-reference` branch is pushed, PR #1 is open, 40/40 tests pass, and
+> no merge, tag or release has been performed. See `RELEASE_NOTES.md` and
+> `PUBLICATION_AUDIT.md` section 12.5.
+
 Independent check before the repository could be made public again. The repository
 stayed **private** throughout; nothing was pushed to a public remote.
 
@@ -202,7 +209,7 @@ Two reproducibility defects were found after publication and fixed:
    are a redirection, so the command failed with
    `bash: OBDLINK-ADDRESS: No such file or directory`. Every published example now
    stores the address in a shell variable and passes it quoted:
-   `ADDR="AA:BB:CC:DD:EE:FF"; ./scripts/start.sh --address "$ADDR" …`.
+   `ADDR="<adapter-address>"; ./scripts/start.sh --address "$ADDR" …`.
 2. **`read_config.py --json logs/before.json` failed on a fresh clone**, because
    `logs/` is git-ignored and the tool did not create the parent directory. The
    tool now creates it; `tests/test_read_config.py` is the regression test and

@@ -1,0 +1,783 @@
+{
+  "schema_version": "2.0",
+  "generated_at": "2026-11-09",
+  "evidence": [
+    {
+      "evidence_id": "EV-EMM-001",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The EMM reported the cornering configuration flag as 0. The Phase 6.7 evidence set contains the archived read-only record; it is not published. This is a read-only vehicle observation, not a function test.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-USER-PHASE82",
+        "SRC-MATRIX-V4"
+      ],
+      "measurement_ref": "Phase 6.7 private archive; raw record and hash not published.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Raw record archived privately; the flag value is not a function test."
+    },
+    {
+      "evidence_id": "EV-EMM-002",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The diagnostic definition EMM_EDISON_DDT2000_SW13_1_V1_3 is present in the project: 237 requests, 2,111 data objects, SHA-256 f616f9bc….",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-EMM-SW13_1",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "The definition is not executable firmware."
+    },
+    {
+      "evidence_id": "EV-EMM-003",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The identity tuple 8/414/C132/4022 is exactly one autoidents tuple of SW13_1; no other EMM definition in the examined set contains it.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1",
+        "SRC-DDT-DB"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-EMM-SW13_1",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "This selects a diagnostic definition; it does not prove the executable firmware version."
+    },
+    {
+      "evidence_id": "EV-EMM-004",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "In the SW13_1 definition, the service set contains no SecurityAccess, upload/download, or routine-control service; the read and configuration services are limited to the identifiers the definition describes. Absence in this definition is not proof that the device lacks a service.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-EMM-SW13_1",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "A missing service in a diagnostic definition does not prove device impossibility."
+    },
+    {
+      "evidence_id": "EV-EMM-005",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The modern lighting-configuration read returns at least 11 bytes; the legacy form returns at least 13 bytes. Both are definition-derived length constraints.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1",
+        "SRC-DDT-DB"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-EMM-SW13_1",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Byte length is not a vehicle measurement."
+    },
+    {
+      "evidence_id": "EV-EMM-006",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "In SW13_1, the lighting-configuration, history, identification, and cornering parameters are defined. The lighting-configuration, history, and identification reads were not performed at the vehicle; the cornering read is covered by EV-EMM-001.",
+      "level": "L3",
+      "status": "NOT_TESTED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Definition presence does not prove a working vehicle function."
+    },
+    {
+      "evidence_id": "EV-EMM-007",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The reprogramming-history record is defined as a read-only history record in SW13_1, but it was not read on this vehicle.",
+      "level": "L3",
+      "status": "NOT_TESTED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "History contents and the installed executable firmware remain unknown."
+    },
+    {
+      "evidence_id": "EV-EMM-008",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "A modern cornering write path is defined in SW13_1. It was not executed in any phase covered by this reference; no write payload is published here.",
+      "level": "L3",
+      "status": "NOT_TESTED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Definition of a write path is not evidence that a write succeeds or is safe."
+    },
+    {
+      "evidence_id": "EV-EMM-009",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The vehicle's EMM part number is 231A07278R. A single community report describes a 2020 replacement 231A07278R unit as EMM-T4; this is not independent confirmation. The EMM-T4 L4/Bosch attribution and the alternative numbers from dead dealer/parts listings remain unconfirmed and are not used as evidence here.",
+      "level": "L4",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-USER-PHASE82",
+        "SRC-SMART-FORUM-4149"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Alternative numbers and the Bosch L4 attribution are dealer/community assertions."
+    },
+    {
+      "evidence_id": "EV-EMM-010",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The MCU is not confirmed for 231A07278R. Forum candidates are SPC560B54L and SPC560B60L5; neither is proven for this L4 board.",
+      "level": "L4",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-MHH"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Package, flash size, and censorship state are unknown."
+    },
+    {
+      "evidence_id": "EV-EMM-011",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The SPC560B family reference manual describes censorship protection for JTAG/Nexus and serial boot. If the fitted MCU is in that family, a full flash read without the 64-bit password would require defeating that protection, which this project does not do.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-ST-RM0037",
+        "SRC-ST-DATASHEET"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-ST-RM0037",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Applies only if the board uses an SPC560B device; no bypass was attempted."
+    },
+    {
+      "evidence_id": "EV-EMM-012",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The executable firmware version installed in 231A07278R is unknown. The DDT definition selected by the identity tuple is not the firmware.",
+      "level": "L5",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1",
+        "SRC-PHASE81-REPORT"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Unknown firmware and calibration."
+    },
+    {
+      "evidence_id": "EV-EMM-013",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "One community report describes a 2020 replacement 231A07278R unit that reported SW13_1_V1_3 and a two-value single-bulb DRL parameter. This is a single, unverified report.",
+      "level": "L4",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-SMART-FORUM-4149"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "One report; no part-number or software audit."
+    },
+    {
+      "evidence_id": "EV-EMM-014",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "Eleven EMM_EDISON definitions differ in requests, data objects, and autoidents; SW15_2 and SW15_3 have identical request and data sets.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-DB"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-DB",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Definition differences do not prove executable firmware differences."
+    },
+    {
+      "evidence_id": "EV-EMM-015",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "No public firmware image for 231A07278R was found. The Renault Reprog V191 archive is gated and no public index or confirmed EMM entry was found. A negative search does not prove that no image exists.",
+      "level": "L4",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-GITHUB-SEARCH",
+        "SRC-REPROG-V191",
+        "SRC-PHASE81-REPORT"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Negative search result only; no archive contents were inspected."
+    },
+    {
+      "evidence_id": "EV-EMM-016",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The all-configuration block grows from 295 bytes in SW13_1 to 443 bytes in SW15_3. This is a configuration block, not a flash image.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1",
+        "SRC-DDT-DB"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-EMM-SW13_1",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Block size does not prove a vehicle write or a firmware change."
+    },
+    {
+      "evidence_id": "EV-EMM-017",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The DDT project mapping names the project families x07, x82, x87, x98, xGA, and xHA. This is a project mapping, not a part-number release list.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-DDT-DB"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-DB",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Project names may not correspond to production part numbers."
+    },
+    {
+      "evidence_id": "EV-EMM-018",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "A donor-bench full-flash read is plausible only if the donor MCU is uncensored or the 64-bit password is known. This project does not bypass censorship.",
+      "level": "L5",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-ST-RM0037",
+        "SRC-MHH"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "No donor was tested; no password is known."
+    },
+    {
+      "evidence_id": "EV-HU-001",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "A read-only part-number query on the vehicle returned 259156244R for the head unit.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-REPO-DOC05",
+        "SRC-REPO-RESEARCH"
+      ],
+      "measurement_ref": "Project report/published 0x6C1C case; raw log not public.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "No raw frame archive; the value is also supported by the TomTom certification."
+    },
+    {
+      "evidence_id": "EV-HU-002",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The 0x6C1C configuration byte was 0x38, was changed to 0x78 in the after-sales session, and was read back as 0x78. The owner reports that Android Auto entries appeared after a restart; projection was not tested.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-REPO-DOC05",
+        "SRC-REPO-RESEARCH"
+      ],
+      "measurement_ref": "Project report/published 0x6C1C case; raw log not public.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_FULL",
+      "raw_publication": "ALLOW_EXISTING_CASE",
+      "residual_uncertainty": "Menu visibility is an owner report; USB projection and other units are untested."
+    },
+    {
+      "evidence_id": "EV-HU-003",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "An identity-record read returned 26 bytes; the first ASCII field is 5104R. The second field is device-specific and is redacted. The exact build is not derived from this record.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-PHASE4-R2"
+      ],
+      "measurement_ref": "Project report/published 0x6C1C case; raw log not public.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Exact build remains ambiguous; second field redacted."
+    },
+    {
+      "evidence_id": "EV-HU-004",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The head unit's version screen shows application version 11.346.3206684-8060.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-REPO-DOC05",
+        "SRC-SMART-MEDIA-FORUM"
+      ],
+      "measurement_ref": "Project report/published 0x6C1C case; raw log not public.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "UI observation, not a diagnostic build read; exact build ambiguity remains."
+    },
+    {
+      "evidence_id": "EV-HU-005",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "MFD v5.4 and v4.6 each contain 192 requests and 688 data objects; v4.6 has 3 autoidents, v5.4 has 21.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-DDT-HU-MFD-v5.4",
+        "SRC-DDT-HU-MFD-v4.6"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-HU-MFD-v5.4",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Definition counts are not firmware versions."
+    },
+    {
+      "evidence_id": "EV-HU-006",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The MFD v5.4 definition contains no SecurityAccess, upload/download, or routine-control service. Its read and configuration services are limited to defined identifiers. Absence in the definition is not proof that the device lacks a service.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-DDT-HU-MFD-v5.4",
+        "SRC-MFD-UNDOCUMENTED"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-HU-MFD-v5.4",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "A missing service in a diagnostic definition does not prove device impossibility."
+    },
+    {
+      "evidence_id": "EV-HU-007",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "MFD v5.4 contains 49 write requests, 53 IO-control requests, 71 data-by-identifier reads, and 5 local-identifier reads.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-DDT-HU-MFD-v5.4"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-HU-MFD-v5.4",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Counts describe the definition, not the device's complete service set."
+    },
+    {
+      "evidence_id": "EV-HU-008",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "MFD v5.4 defines a diagnostic session and an after-sales session, but no programming session.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-DDT-HU-MFD-v5.4",
+        "SRC-MFD-UNDOCUMENTED"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-HU-MFD-v5.4",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Session definition does not prove all device capabilities."
+    },
+    {
+      "evidence_id": "EV-HU-009",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "TOMTOM.000 is a 479,879,168-byte ext3 delivery container with SHA-256 157e95d9….",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-DEBUG-ACCESS",
+        "SRC-FIRMWARE-INVENTORY"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DEBUG-ACCESS",
+      "publication_decision": "PUBLIC_METADATA",
+      "raw_publication": "METADATA_ONLY",
+      "residual_uncertainty": "Container format does not make it a flash image."
+    },
+    {
+      "evidence_id": "EV-HU-010",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The 3206684 update package is 453,884,542 bytes with SHA-256 5b4e311a… and contains a kernel image and a rootfs block delta.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-DEBUG-ACCESS",
+        "SRC-FIRMWARE-INVENTORY"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DEBUG-ACCESS",
+      "publication_decision": "PUBLIC_METADATA",
+      "raw_publication": "METADATA_ONLY",
+      "residual_uncertainty": "A delta package is not a full flash image."
+    },
+    {
+      "evidence_id": "EV-HU-011",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The rootfs delta contains a journal and inode damage; it is not a complete, mountable root filesystem.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-FIRMWARE-INVENTORY",
+        "SRC-DEBUG-ACCESS"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-FIRMWARE-INVENTORY",
+      "publication_decision": "PUBLIC_METADATA",
+      "raw_publication": "METADATA_ONLY",
+      "residual_uncertainty": "Completeness of the delta and all shipped code cannot be proven."
+    },
+    {
+      "evidence_id": "EV-HU-012",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The board has a 4 MiB parallel CFI NOR device on GPMC chip-select 0 at 0x08000000; the DIAGSYS region is 0x08300000–0x083FFFFF.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-FLASH-DUMP-PLAN",
+        "SRC-DIAGSYS-FACTORY"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-FLASH-DUMP-PLAN",
+      "publication_decision": "PUBLIC_METADATA",
+      "raw_publication": "METADATA_ONLY",
+      "residual_uncertainty": "No NOR dump exists; the physical board was not probed."
+    },
+    {
+      "evidence_id": "EV-HU-013",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "UART3/ttyO2 is a candidate for the U-Boot console, but no physical test point is confirmed.",
+      "level": "L2",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-HW-SW-TESTPOINTS",
+        "SRC-DIAGSYS-FACTORY"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-HW-SW-TESTPOINTS",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Candidate only; no console capture."
+    },
+    {
+      "evidence_id": "EV-HU-014",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "ADB is gated by the device-class property loaded through the FDT; without device-class=1, adbd remains off.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-ADB-ROOTFS"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-ADB-ROOTFS",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "The gate is described; no vehicle ADB session is published."
+    },
+    {
+      "evidence_id": "EV-HU-015",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "Android Auto and MirrorLink components are present in the analyzed firmware artifacts. Their completeness and their actual projection function are not proven.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-PROJECTION-ARCH"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-PROJECTION-ARCH",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Presence of components is not proof of a complete, working stack."
+    },
+    {
+      "evidence_id": "EV-HU-016",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "iAP2 media components are present. No CarPlay/AirPlay protocol stack was found in the analyzed, incomplete artifacts; absence on the whole device is not proven.",
+      "level": "L2",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-PROJECTION-ARCH"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-PROJECTION-ARCH",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "A missing code finding in an incomplete image does not prove absence on the device."
+    },
+    {
+      "evidence_id": "EV-HU-017",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "TomTom certification identifies 1ME0.001.45 as Renault 259156244R and Daimler 4539002904, model 1ME09.",
+      "level": "L4",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-TOMTOM-CERT"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Certification identity is not a per-vehicle software audit."
+    },
+    {
+      "evidence_id": "EV-HU-018",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The FCC reference unit is 1ME0.001.27 / 259154108R / 4539001301, FCC ID S4L1ME09, board TN4D.",
+      "level": "L4",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-FCC",
+        "SRC-HW-SW-TESTPOINTS"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Reference unit, not the vehicle unit."
+    },
+    {
+      "evidence_id": "EV-HU-019",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "It is not proven that the FCC board TN4D is identical to the vehicle part 259156244R.",
+      "level": "L4",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-FCC",
+        "SRC-TOMTOM-CERT",
+        "SRC-HW-SW-TESTPOINTS"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Board equality remains open."
+    },
+    {
+      "evidence_id": "EV-HU-020",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The exact installed build (3206684 vs 3168863) cannot be derived from the identity record; the version screen names 3206684.",
+      "level": "L5",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-PHASE4-R2",
+        "SRC-REPO-DOC05"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Exact build and update history remain open."
+    },
+    {
+      "evidence_id": "EV-HU-021",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The write to the 0x6C1C configuration byte was refused in the default diagnostic session and accepted in the after-sales session. This establishes a session requirement for this one case; it is not a universal recipe.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-REPO-RESEARCH"
+      ],
+      "measurement_ref": "Project report/published 0x6C1C case; raw log not public.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_FULL",
+      "raw_publication": "ALLOW_EXISTING_CASE",
+      "residual_uncertainty": "One unit, one software state; the default-session rejection is the only negative result."
+    },
+    {
+      "evidence_id": "EV-HU-022",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The TomTom update uses signed job and file manifests; a signature-verification path is present.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-JOBLIST",
+        "SRC-DIAG-AUDIT"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-JOBLIST",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Presence of verification does not prove that every update path enforces it."
+    },
+    {
+      "evidence_id": "EV-HU-023",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "The project holds no complete root filesystem, NOR dump, or eMMC dump for the head unit.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-FIRMWARE-INVENTORY",
+        "SRC-FLASH-DUMP-PLAN"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-FIRMWARE-INVENTORY",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Absence in the project is not proof that no such dump exists elsewhere."
+    },
+    {
+      "evidence_id": "EV-HU-024",
+      "ecu_id": "ECU-HU-MFD",
+      "statement": "Community descriptions call the Smart Media System R-Link-1-like; the exact identity established here is TomTom 1ME09/Strasbourg, not R-Link.",
+      "level": "L4",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "259156244R / 4539002904 / 1ME0.001.45 (vehicle unit)",
+      "software_scope": "MFD v5.4 definition (2019-02-28); app 11.346.3206684-8060; MFD v4.6 comparison",
+      "source_ids": [
+        "SRC-EVILUTION",
+        "SRC-DDT4ALL-512"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "The R-Link comparison remains unproven."
+    },
+    {
+      "evidence_id": "EV-SHARED-001",
+      "ecu_id": "SHARED",
+      "statement": "OBD pins 12/13 are commonly described as an LS/multimedia CAN pair on Renault vehicles; for this Smart 453, no continuity or pin measurement confirms it.",
+      "level": "L4",
+      "status": "NOT_TESTED",
+      "hardware_scope": "Smart 453 with EMM-T4 and TomTom 1ME09; shared diagnostic/CAN context",
+      "software_scope": "Version-independent infrastructure statement",
+      "source_ids": [
+        "SRC-PINOUT-RENAULT",
+        "SRC-DDT4ALL-512"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Not confirmed for this vehicle; no automatic bus switch."
+    },
+    {
+      "evidence_id": "EV-PUB-001",
+      "ecu_id": "SHARED",
+      "statement": "The public repository excludes firmware and the DDT request catalogue. Raw diagnostic hex is limited to the one deliberately published 0x6C1C activation case.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "Smart 453 with EMM-T4 and TomTom 1ME09; shared diagnostic/CAN context",
+      "software_scope": "Version-independent infrastructure statement",
+      "source_ids": [
+        "SRC-REPO-PUBLICATION-AUDIT"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-REPO-PUBLICATION-AUDIT",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Section 10.5 is historical; the current audit has a 2026-11-09 status note and section 12 re-audit."
+    }
+  ]
+}

@@ -7,6 +7,15 @@ Initial commit `902f1b806ee6591df6aea78597d380bd7f64f0da` on `main`. This audit 
 performed before that commit and re-run after the licence restructuring described in
 section 7; the results below reflect the published content.
 
+> **Current-status note (2026-11-09, Phase 9.1).** Sections 1–11 are the historical
+> audit; this note and section 12 are the current status. Section 9 deliberately
+> superseded the old “no write procedure” and “no raw request hex” exclusions for
+> the single `0x6C1C` activation case. The current public tree contains that one
+> historical request/response case and the existing read/tool examples; it does not
+> add a new diagnostic recipe. Read section 12 for the current scope, not section
+> 1’s historical exclusion list.
+
+
 This audit exists because the material is derived from a vendor's firmware and from
 a real vehicle. The default is to leave something out — a claim that cannot be
 sourced, a value that identifies a person, a snippet that is someone else's code.
@@ -102,6 +111,11 @@ Risk: **low**, because nothing is redistributed.
 byte offset and no write instruction, and the text says explicitly that the write
 was never performed and the effect is unknown. Risk: **low to moderate** — somebody
 could still read it as a hint. Accepted, with the disclaimers in place.
+
+> **Superseded 2026-11-08.** The write was later performed and read back; see section
+> 9. The arithmetic and the historical risk assessment remain, but the sentence
+> “the write was never performed” is no longer the current state.
+
 
 ## 4. Safety risk assessment
 
@@ -208,8 +222,10 @@ paths.
 - the rejected first attempt: `2E 6C 1C 78` → `7F 2E 7F`,
 - the bit table that turns `0x38` into `0x78` (offset 1, mask `0x40`).
 
-Not published: timestamps that would tie the vehicle to a place, log files, adapter
-setup sequences, and any second data identifier.
+Not published: location-bearing timestamps, log files, adapter setup sequences, and
+any second data identifier. Absolute clock times have been removed from the public
+case; the result report uses step labels and retains the event order for
+reproducibility.
 
 ### 9.3 Images
 
@@ -346,3 +362,75 @@ states the limits next to every claim.
 The repository is coherent as a project: guide, tools, tests, research, licences.
 No personal data, no vendor material, no unsourced claims. The visibility remains
 **private** until the owner gives explicit release approval.
+
+---
+
+## 11. Status correction 2026-11-09 (Phase 8.3)
+
+Section 10.5 was written before the repository was made public and is retained as
+history. The repository is currently public. The Phase 8.3 review also found that
+section 1's blanket “no raw request hex” statement is limited by the deliberately
+published `0x6C1C` activation case in section 9. The Phase 8.3 reference therefore
+publishes no new request recipe and keeps all other raw diagnostic data private.
+
+---
+
+## 12. Re-audit 2026-11-09 (Phase 9.0)
+
+Scope: the complete working tree intended for the `docs/phase8.2-reference`
+candidate, including the new `reference/` tree. This section supersedes earlier
+counts only where it says so; sections 1–11 remain the historical record.
+
+### 12.1 Public tree
+
+| Check | Result |
+|---|---|
+| New reference tree | **53 files**, all text/JSON/CSV/Python; no binaries |
+| Evidence / claims / sources | **60 / 35 / 44**, no duplicate IDs |
+| Validator | `OK: 0 error(s), 0 warning(s)`; 39 required files, 38 relative links |
+| Offline test suite | **40/40 OK** with `pyserial 3.5`; mock ECU only |
+| `git diff --check` | clean (staged and unstaged) |
+| VIN, MAC, RFC1918, home paths, credentials, private keys | none in `reference/` |
+| Raw request pairs | none in `reference/`; the historical `0x6C1C` case remains the only published request/response case |
+| Firmware, update packages, rootfs, DDT JSON/database | not present |
+| Relative links | all 38 resolve inside `reference/` |
+
+### 12.2 Historical raw identifiers outside `reference/`
+
+The sixteen historical matches recorded in Phase 8.5 are unchanged. They are in the
+already-public guide, activation case, tools and tests; they are not copied into the
+new reference tree. Most are the single documented `0x6C1C` activation case
+(`10 C0`, `2E 6C 1C 78`, `2E 7F`) or the read/tool documentation (`22 F1 87`,
+`22 6C 1C`). The `token = command.split()[0]` hit is a parser expression, not a
+secret. **Policy: retained as historical disclosure, no expansion.** Removing them
+would not remove them from public Git history; the README now states explicitly that
+the activation case is the only published raw request/response case and that the
+429-command catalogue is definition-level, not a vehicle capability list.
+
+### 12.3 Licence
+
+Documentation is CC BY 4.0; original code under `tools/`, `tests/` and
+`reference/tools/` is MIT. The `NOTICE.md` carve-out for vendor firmware, third-party
+software/databases and trademarks remains in force. No DDT4All data or code is
+redistributed. The DDT database licence remains unreviewed and is not a public
+artifact.
+
+### 12.4 Verdict
+
+**PASS for the reference tree; PASS WITH HISTORICAL DISCLOSURE for the complete
+repository.** The remaining conditions are owner/legal sign-off for the historical
+activation disclosure and the commit/push approval. There is no new private data and
+no new proprietary material in this candidate.
+
+The published activation result now uses step labels instead of absolute clock
+times. It contains no location, VIN, adapter serial or vehicle identifier. The
+sequence is retained for reproducibility; the timestamped private log remains
+private.
+
+### 12.5 Publication-status addendum (2026-11-09, Phase 9.4)
+
+At the 2026-11-09 review, commit `48d5ef0665528c5a43c73031253975da6a552580`
+was pushed to `docs/phase8.2-reference` and PR #1 is open against `main`. `main`
+remains at `c4dc2b415f680a4de7be839c1ad3b0e8c6197e9b`. No merge, tag or GitHub
+release has been approved or performed. The commit/push-approval sentence in
+section 12.4 is historical; this addendum records the post-publication state.

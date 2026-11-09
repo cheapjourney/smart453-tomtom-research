@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Firmware catalog row",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "firmware_id",
+    "dateiname",
+    "ecu_id",
+    "typ",
+    "vollstaendigkeit",
+    "enthaelt_full_flash",
+    "enthaelt_rootfs",
+    "enthaelt_bootloader",
+    "evidence_level",
+    "evidence_status",
+    "source_id",
+    "public_safe"
+  ],
+  "properties": {
+    "firmware_id": {
+      "type": "string"
+    },
+    "dateiname": {
+      "type": "string"
+    },
+    "ecu_id": {
+      "type": "string"
+    },
+    "typ": {
+      "type": "string"
+    },
+    "vollstaendigkeit": {
+      "type": "string"
+    },
+    "enthaelt_full_flash": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no",
+        "partial",
+        "unknown"
+      ]
+    },
+    "enthaelt_rootfs": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no",
+        "partial",
+        "delta",
+        "unknown",
+        "full"
+      ]
+    },
+    "enthaelt_bootloader": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no",
+        "partial",
+        "yes_if_dumped",
+        "unknown"
+      ]
+    },
+    "evidence_level": {
+      "type": "string",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    "evidence_status": {
+      "type": "string",
+      "enum": [
+        "CONFIRMED",
+        "UNCONFIRMED",
+        "CONTRADICTED",
+        "NOT_TESTED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "public_safe": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false"
+      ]
+    }
+  }
+}

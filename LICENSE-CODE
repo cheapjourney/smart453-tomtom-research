@@ -22,7 +22,8 @@ SOFTWARE.
 
 ---
 
-Scope: this licence covers the original source code in `tools/` and `tests/`.
-The documentation (README.md, docs/, research/, NOTICE.md, PUBLICATION_AUDIT.md)
-is licensed CC BY 4.0, see LICENSE and NOTICE.md. Nothing here grants rights in
-any vendor firmware, software, database or trademark.
+Scope: this licence covers the original source code in `tools/`, `tests/` and
+`reference/tools/`.
+The documentation (README.md, docs/, research/, reference/ except reference/tools/,
+NOTICE.md, PUBLICATION_AUDIT.md) is licensed CC BY 4.0, see LICENSE and NOTICE.md.
+Nothing here grants rights in any vendor firmware, software, database or trademark.

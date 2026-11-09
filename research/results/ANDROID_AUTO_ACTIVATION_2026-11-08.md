@@ -68,7 +68,7 @@ other phones remain clear.
 
 ## 4. Chronology of the two write attempts
 
-### 4.1 First attempt — default session (2026-11-08, 16:38)
+### 4.1 First attempt — default session (2026-11-08)
 
 | Step | Value | Evidence |
 |---|---|---|
@@ -82,17 +82,17 @@ The unit refused the service in the default diagnostic session. No configuration
 change occurred; the negative response means the request was rejected before it
 was executed. One write frame was sent, no retry, no session change.
 
-### 4.2 Second attempt — after-sales session (2026-11-08, 16:45–16:46)
+### 4.2 Second attempt — after-sales session (2026-11-08)
 
-| Step | Value | Time | Evidence |
+| Step | Value | Order | Evidence |
 |---|---|---|---|
-| Identity read | `259156244R` | 16:45:55 | **[LIVE]** |
-| Configuration read | `0x38` | 16:45:57 | **[LIVE]** |
-| Session request | `10 C0` | 16:45:57 | **[LIVE]** |
-| Session response | **`50 C0`** | 16:45:59 | **[LIVE]** |
-| Write request | `2E 6C 1C 78` | 16:45:59 | **[LIVE]** |
-| Write response | **`6E 6C 1C`** | 16:46:01 | **[LIVE]** |
-| Read-back | **`62 6C 1C 78`** | 16:46:03 | **[LIVE]** |
+| Identity read | `259156244R` | step 1 | **[LIVE]** |
+| Configuration read | `0x38` | step 2 | **[LIVE]** |
+| Session request | `10 C0` | step 3 | **[LIVE]** |
+| Session response | **`50 C0`** | step 4 | **[LIVE]** |
+| Write request | `2E 6C 1C 78` | step 5 | **[LIVE]** |
+| Write response | **`6E 6C 1C`** | step 6 | **[LIVE]** |
+| Read-back | **`62 6C 1C 78`** | step 7 | **[LIVE]** |
 
 One session frame, one write frame. No retry, no security access, no ECU reset,
 no rollback write. The head unit was not restarted during the session.

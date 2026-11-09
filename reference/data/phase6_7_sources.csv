@@ -1,0 +1,3 @@
+source_id,type,title,author,published,retrieved,locator,availability,license,quality_class,publication_decision,notes
+SRC-PHASE67,project_measurement,Phase 6.7 real EMM evidence validation (private),Project owner,2026-11-09,2026-11-09,private Phase 6.7 evidence set,internal,private project data,B,INTERNAL_ONLY,87 SHA-256 entries verified; 295-byte response payload / 293 configuration data bytes; 462 fields; raw values and hashes are not published.
+SRC-PHASE67-V51,project_artifact,V5.1 matrix and regression report (private),Project owner,2026-11-09,2026-11-09,private project matrix,internal,private project data,B,INTERNAL_ONLY,"54 rows, 43 columns; V4/V5 unchanged; 0 known values lost; provenance column only."

@@ -1,0 +1,19 @@
+{
+  "ecus": 2,
+  "emm_requests": 237,
+  "emm_data_objects": 2111,
+  "emm_config_rows": 3890,
+  "emm_unique_config_names": 2027,
+  "headunit_requests": 192,
+  "headunit_data_objects": 688,
+  "headunit_config_rows": 908,
+  "headunit_unique_config_names": 503,
+  "evidence": 44,
+  "claims": 19,
+  "sources": 41,
+  "l1_evidence": 6,
+  "l2_evidence": 23,
+  "l3_evidence": 3,
+  "l4_evidence": 9,
+  "l5_evidence": 3
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ECU registry",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "ecus",
+    "shared_context"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "ecus": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "ecu_id",
+          "name",
+          "diagnostic",
+          "hardware",
+          "software",
+          "features"
+        ],
+        "properties": {
+          "ecu_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "vehicle": {
+            "type": "string"
+          },
+          "part_numbers": {
+            "type": "object"
+          },
+          "diagnostic": {
+            "type": "object"
+          },
+          "hardware": {
+            "type": "object"
+          },
+          "software": {
+            "type": "object"
+          },
+          "features": {
+            "type": "object"
+          },
+          "open_questions": {
+            "type": "array"
+          },
+          "public_safe": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "shared_context": {
+      "type": "object"
+    }
+  }
+}

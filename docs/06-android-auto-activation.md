@@ -4,6 +4,12 @@ This is the chapter the rest of the repository exists for. Read all of it before
 running anything. Two routes are described; only one of them was executed by this
 project.
 
+> **Historical case, not a supported universal procedure.** The write and read-back
+> below are confirmed for one vehicle, one head-unit part number and one software
+> state (`11.346.3206684-8060`). The Android Auto projection was **not tested**;
+> there is no verified recovery path. Do not copy `0x78` or these frames to another
+> unit, and do not treat this chapter as a general coding guide.
+
 **Status of this document**
 
 | Route | Status |
@@ -70,7 +76,7 @@ on this unit:
 2E 6C 1C 78   →   7F 2E 7F      serviceNotSupportedInActiveSession
 ```
 
-`TESTED` — this is the actual first attempt, 2026-11-08 16:38.
+`TESTED` — this is the actual first attempt in the default session, 2026-11-08.
 
 After switching to the after-sales session it was accepted. The session request is
 `10 C0`, which is session type `0x40` with the
@@ -131,11 +137,11 @@ There is no retry, no rollback, no reset and no second session in the code.
 ### What the successful run looked like
 
 ```
-identity : 62 F1 87 '259156244R'         16:45:55
-config   : 0x38                          16:45:57
-session  : 10C0 → 50 C0                  16:45:59
-write    : 2E6C1C78 → 6E 6C 1C           16:46:01
-readback : 0x78                          16:46:03
+identity : 62 F1 87 '259156244R'         step 1
+config   : 0x38                          step 2
+session  : 10C0 → 50 C0                  step 3
+write    : 2E6C1C78 → 6E 6C 1C           step 4
+readback : 0x78                          step 5
 ```
 
 `TESTED`. Exit code 0.
@@ -183,10 +189,12 @@ application's own log.
 
 ## 6. Which route should you take
 
-Use the tool if you can: it is small, it has one dependency, it enforces the
-preconditions in code, and it sends exactly one frame. Use DDT4All if you need its
-screen editor or if you are working on a unit whose description this project has
-not covered — but then treat the read-only tool as your ground truth.
+Neither route is a supported general procedure. This chapter records one historical
+case; the published tool is included so the case can be audited and reproduced, and
+its behaviour has been verified only against the mock ECU. If you choose to work on
+your own unit, the read-only tool is the ground truth and you accept the risk of an
+unverified write. Use DDT4All only if you need its screen editor or a unit whose
+description this project has not covered.
 
 ## 7. After the write
 
