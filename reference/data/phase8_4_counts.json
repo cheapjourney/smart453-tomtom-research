@@ -1,0 +1,55 @@
+{
+  "phase": "8.4/8.5",
+  "evidence": 8,
+  "claims": 9,
+  "sources": 1,
+  "catalog": {
+    "total": 429,
+    "emm": 237,
+    "headunit": 192,
+    "ddt_only": 420,
+    "vehicle_read_confirmed": 8,
+    "vehicle_write_confirmed_historical": 1,
+    "l1_measurements": 9,
+    "l1_reads": 8,
+    "l1_historical_writes": 1
+  },
+  "emm_configuration": {
+    "response_payload_bytes": 295,
+    "positive_response_header_bytes": 2,
+    "configuration_data_bytes": 293,
+    "frames": 43,
+    "duration_ms": 893,
+    "decoded_fields": 462
+  },
+  "headunit": {
+    "read_observations": 3,
+    "historical_writes": 1,
+    "configuration_byte": "0x6C1C",
+    "before": "0x38",
+    "after": "0x78",
+    "projection_function_tested": false,
+    "multimedia_can_pins": "12/13",
+    "standard_obd_pins_reach_it_automatically": false
+  },
+  "evidence_levels": {
+    "L1": 3,
+    "L2": 4,
+    "L3": 1,
+    "L4": 0,
+    "L5": 0
+  },
+  "claim_status": {
+    "CONFIRMED": 5,
+    "UNCONFIRMED": 3,
+    "CONTRADICTED": 0,
+    "NOT_TESTED": 1
+  },
+  "private_data": [
+    "429-row master evidence matrix",
+    "per-command request payloads",
+    "nine raw L1 records and hashes",
+    "head-unit logs",
+    "EMM payloads"
+  ]
+}

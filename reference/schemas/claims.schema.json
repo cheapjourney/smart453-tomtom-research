@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Claims register row",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "claim_id",
+    "claim",
+    "status",
+    "evidence_ids"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string"
+    },
+    "claim": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "CONFIRMED",
+        "UNCONFIRMED",
+        "CONTRADICTED",
+        "NOT_TESTED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "evidence_ids": {
+      "type": "string"
+    },
+    "explanation": {
+      "type": "string"
+    }
+  }
+}

@@ -3,12 +3,13 @@
 ## What each licence covers
 
 **Documentation — CC BY 4.0.** `README.md`, everything under `docs/`, everything
-under `research/`, `REFERENCES.md`, `PUBLICATION_AUDIT.md` and this notice are
-licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)**. The
-unmodified legal code is in [`LICENSE`](LICENSE).
+under `research/`, everything under `reference/`, `REFERENCES.md`,
+`PUBLICATION_AUDIT.md` and this notice are licensed under **Creative Commons
+Attribution 4.0 International (CC BY 4.0)**. The unmodified legal code is in
+[`LICENSE`](LICENSE).
 
-**Code — MIT.** Everything under `tools/` and `tests/` is original code written for
-this project and is licensed under the **MIT licence** in
+**Code — MIT.** Everything under `tools/`, `tests/` and `reference/tools/` is
+original code written for this project and is licensed under the **MIT licence** in
 [`LICENSE-CODE`](LICENSE-CODE).
 
 ## What neither licence covers

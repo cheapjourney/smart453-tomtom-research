@@ -202,7 +202,7 @@ Two reproducibility defects were found after publication and fixed:
    are a redirection, so the command failed with
    `bash: OBDLINK-ADDRESS: No such file or directory`. Every published example now
    stores the address in a shell variable and passes it quoted:
-   `ADDR="AA:BB:CC:DD:EE:FF"; ./scripts/start.sh --address "$ADDR" …`.
+   `ADDR="<adapter-address>"; ./scripts/start.sh --address "$ADDR" …`.
 2. **`read_config.py --json logs/before.json` failed on a fresh clone**, because
    `logs/` is git-ignored and the tool did not create the parent directory. The
    tool now creates it; `tests/test_read_config.py` is the regression test and

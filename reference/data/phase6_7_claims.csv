@@ -1,0 +1,8 @@
+claim_id,claim,status,evidence_ids,explanation,public_safe,publication_decision
+CLM-P67-001,Die reale EMM-Gesamtkonfiguration umfasst 295 Response-Payload-Bytes einschließlich des zweibyteigen Positive-Response-Headers; davon sind 293 Byte Konfigurationsdaten.,CONFIRMED,EV-P67-001,"43 Frames; 295 Byte ISO-TP/Response-Payload; Byte 0-1 sind der Positive-Response-Header, danach 293 Konfigurationsbytes und 462 Definitionsfelder. Rohrecord, Hash und Einzelrohwerte bleiben privat.",true,PUBLIC_DERIVED
+CLM-P67-002,Das Cornering-Flag ist in der Einzelabfrage und im Konfigurationsrecord jeweils 0.,CONFIRMED,EV-P67-002,Wertbeobachtung; kein Funktionstest.,true,PUBLIC_DERIVED
+CLM-P67-003,Die vorderen Nebelscheinwerfer sind konfiguriert.,CONFIRMED,EV-P67-003,Konfigurationsflag 1; PWM-Konfiguration aktiv; Hardware vom Halter bestätigt.,true,PUBLIC_DERIVED
+CLM-P67-004,Die vorderen Nebelscheinwerfer sind elektrisch funktionsfähig.,NOT_TESTED,EV-P67-003;EV-P67-008,Keine elektrische Prüfung; Sichtprüfung/Funktionstest fehlt.,true,PUBLIC_DERIVED
+CLM-P67-005,V5 hat die Menü-Sichtbarkeit von Android Auto und MirrorLink verloren.,CONTRADICTED,EV-P67-006,Die V5-CSV enthält weiterhin Im Menü sichtbar = Ja; nur der V5-Begleittext war falsch. V5.1 korrigiert das.,true,PUBLIC_DERIVED
+CLM-P67-006,Ein Schreibvorgang auf das Cornering-Flag ist sicher und dauerhaft und aktiviert die Funktion.,UNCONFIRMED,EV-P67-007;EV-P67-008,"Kein Write durchgeführt; Session, Persistenz, LID-7F-Sichtbarkeit, Rückweg und Funktion sind ungeprüft.",true,PUBLIC_DERIVED
+CLM-P67-007,Die ausführbare EMM-Firmware ist SW13_1_V1_3.,UNCONFIRMED,EV-P67-001,SW13_1_V1_3 ist die passende Diagnosedefinition; die ausführbare Firmware wurde nicht gelesen.,true,PUBLIC_DERIVED

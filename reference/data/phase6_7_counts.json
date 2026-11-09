@@ -1,0 +1,33 @@
+{
+  "phase": "6.7",
+  "evidence": 8,
+  "claims": 7,
+  "sources": 2,
+  "evidence_levels": {
+    "L1": 4,
+    "L2": 2,
+    "L3": 1,
+    "L4": 0,
+    "L5": 1
+  },
+  "claim_status": {
+    "CONFIRMED": 3,
+    "UNCONFIRMED": 2,
+    "CONTRADICTED": 1,
+    "NOT_TESTED": 1
+  },
+  "real_vehicle": {
+    "decoded_fields": 462,
+    "baseline_hashes_verified": 87,
+    "response_payload_bytes": 295,
+    "config_data_bytes": 293,
+    "response_header_bytes": 2
+  },
+  "private_data": [
+    "raw 295-byte response payload (293 configuration data bytes)",
+    "record hash",
+    "462 individual raw values",
+    "V5.1 full matrix",
+    "Phase 6.7 reports"
+  ]
+}

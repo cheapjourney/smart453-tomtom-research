@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Measurement record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "measurement_id",
+    "ecu_id",
+    "request",
+    "measured_at",
+    "evidence_level",
+    "evidence_status"
+  ],
+  "properties": {
+    "measurement_id": {
+      "type": "string"
+    },
+    "ecu_id": {
+      "type": "string"
+    },
+    "request": {
+      "type": "string"
+    },
+    "measured_at": {
+      "type": "string"
+    },
+    "evidence_level": {
+      "type": "string",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    "evidence_status": {
+      "type": "string",
+      "enum": [
+        "CONFIRMED",
+        "UNCONFIRMED",
+        "CONTRADICTED",
+        "NOT_TESTED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "public_safe": {
+      "type": "boolean"
+    }
+  }
+}

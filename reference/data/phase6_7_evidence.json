@@ -1,0 +1,145 @@
+{
+  "schema_version": "2.0",
+  "generated_at": "2026-11-09",
+  "evidence": [
+    {
+      "evidence_id": "EV-P67-001",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "A real read-only all-configuration read returned 295 response-payload bytes including the two-byte positive-response header; 293 bytes are configuration data. The 295-byte payload decodes to 462 definition fields. The raw record, its hash, and the individual raw values remain private.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4; MCU and executable firmware unconfirmed",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
+      "source_ids": [
+        "SRC-PHASE67"
+      ],
+      "measurement_ref": "Phase 6.7 real read-only measurement; raw record and hash kept private.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "295 bytes are the response payload including the positive-response header; 293 bytes are configuration data. The record is a configuration snapshot, not firmware."
+    },
+    {
+      "evidence_id": "EV-P67-002",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The cornering configuration flag is 0 in both the single-flag read and the all-configuration record. That is a value observation, not a function test.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3; executable firmware unknown",
+      "source_ids": [
+        "SRC-PHASE67"
+      ],
+      "measurement_ref": "Phase 6.7 real read-only measurement; raw record private.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Flag value 0; the cornering light was not tested."
+    },
+    {
+      "evidence_id": "EV-P67-003",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The front-fog configuration flag is 1 and the PWM configuration is active (the without-PWM flag is 0). The owner reports that front fog lamps are installed; their electrical function is not proven.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4; front fog lamp hardware owner-reported",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3; executable firmware unknown",
+      "source_ids": [
+        "SRC-PHASE67"
+      ],
+      "measurement_ref": "Phase 6.7 real read-only measurement; raw record private.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Configuration only; no lamp function test."
+    },
+    {
+      "evidence_id": "EV-P67-004",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The real record contains cornering parameters A1 = 60 degrees, A2 = 15 degrees, speed threshold = 40 km/h, and dimming raw value 220. The 2.2-second interpretation is only plausible at 0.01 s/LSB; the definition says 0.1 s/LSB.",
+      "level": "L1",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3; executable firmware unknown",
+      "source_ids": [
+        "SRC-PHASE67",
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "Phase 6.7 real read-only measurement; raw record private.",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Dimming scale is unresolved; the physical function is not tested."
+    },
+    {
+      "evidence_id": "EV-P67-005",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "Twenty fields in the record lie outside their documented ranges: zero are proven definition errors, 14 are probable scaling or offset errors, and 6 remain unresolved contradictions. Raw values were not corrected.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3; 462-field definition",
+      "source_ids": [
+        "SRC-PHASE67",
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-PHASE67",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "The category counts are analysis results, not corrected values."
+    },
+    {
+      "evidence_id": "EV-P67-006",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "V4 to V5 regression: 54 rows and 33 shared columns, zero known V4 values lost, 62 expected changes. Android Auto and MirrorLink retain menu-visible = yes; V5's narrative claim that menu visibility is everywhere unknown is false. V5.1 adds an explicit provenance column without changing technical values.",
+      "level": "L2",
+      "status": "CONFIRMED",
+      "hardware_scope": "Smart 453 head-unit rows in the matrix; EMM rows as marked",
+      "software_scope": "V4, V5 and V5.1 matrices; head-unit MFD rows unchanged",
+      "source_ids": [
+        "SRC-PHASE67-V51",
+        "SRC-MATRIX-V4"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-PHASE67-V51",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "The V5.1 provenance column is documentation, not a new measurement."
+    },
+    {
+      "evidence_id": "EV-P67-007",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "The single-flag write definition uses a fixed value with no read-modify-write; it has no explicit save, commit or reset field. It was not executed. The all-configuration write is denied in the after-sales session and is not a safe fallback.",
+      "level": "L3",
+      "status": "NOT_TESTED",
+      "hardware_scope": "231A07278R / EMM-T4 L4",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3",
+      "source_ids": [
+        "SRC-DDT-EMM-SW13_1"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "SRC-DDT-EMM-SW13_1",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Definition only; session, persistence and side effects are untested."
+    },
+    {
+      "evidence_id": "EV-P67-008",
+      "ecu_id": "ECU-EMM-EDISON",
+      "statement": "Persistence across an ignition cycle, whether the all-configuration record reflects a single-flag write, the rollback path, and the electrical lamp function are unproven. No write was performed.",
+      "level": "L5",
+      "status": "UNCONFIRMED",
+      "hardware_scope": "231A07278R / EMM-T4 L4; front fog hardware",
+      "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3",
+      "source_ids": [
+        "SRC-PHASE67"
+      ],
+      "measurement_ref": "",
+      "artifact_ref": "",
+      "publication_decision": "PUBLIC_DERIVED",
+      "raw_publication": "BLOCK",
+      "residual_uncertainty": "Everything about a future write remains a hypothesis; no write or function test was done."
+    }
+  ]
+}

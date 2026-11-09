@@ -1,35 +1,71 @@
-# Smart 453 — Android Auto on the factory TomTom head unit
+# Smart 453 — EMM-T4/EDISON and TomTom head-unit research
 
-Documentation and small, auditable tools for reading and changing the configuration
-of the TomTom-built head unit in a Smart 453, with a long-term interest in getting
-CarPlay onto the same screen through an adapter.
+Evidence-tagged documentation and small, auditable tools for the EMM-T4/EDISON body
+controller and the TomTom-built head unit in a Smart 453. The repository includes one
+confirmed, documented head-unit configuration change (Android Auto) and a read-only
+technical reference for both ECUs.
 
 This repository is the work of one vehicle owner on one car. It records what was
 measured, what was changed, and what is still unknown. It is not a vendor
 procedure, and it is not affiliated with TomTom, smart, Renault, Mercedes-Benz or
 Google.
 
----
-
 ## Status of the project
 
 | Area | State |
 |---|---|
+| EMM-T4/EDISON identified (`231A07278R`, autoident `8/414/C132/4022`) | done, on the vehicle |
+| EMM configuration read | 295-byte payload, 293 configuration bytes, 462 decoded fields (raw private) |
+| EMM executable firmware | **not identified; no full dump** |
 | Head unit identified, diagnostic interface documented | done, on the vehicle |
-| Configuration byte understood and decoded | done |
+| Head-unit configuration byte understood and decoded | done |
 | Android Auto activated (`0x38` → `0x78`) | **done on 2026-11-08**, written and read back |
 | Android Auto entries visible in the head unit menu | observed after a restart |
 | Android Auto projection with a phone over USB | **not tested** |
 | CarPlay through a CarLinkit T-Box Lite S | **not tested** |
+| Full OBD2 firmware dump of either ECU | **not demonstrated** |
 | Behaviour on other part numbers or software versions | unknown |
 
 The difference between "configured", "visible" and "working" is the point of
 [`docs/07-verification.md`](docs/07-verification.md). A menu entry is not a working
 projection.
 
+The current consolidated snapshot is [`RELEASE_NOTES.md`](RELEASE_NOTES.md); it is
+not a Git tag or a GitHub release.
+
+## Research snapshot — 2026-11-09
+
+The consolidated reference is [`reference/README.md`](reference/README.md). Its
+public data set currently contains:
+
+| Item | Value |
+|---|---:|
+| Evidence entries | 60 |
+| Claims | 35 |
+| Sources | 44 |
+| Catalogued diagnostic requests | 429 (237 EMM + 192 head unit) |
+| DDT-only, not vehicle-confirmed | 420 |
+| Confirmed read events | 8 |
+| Confirmed historical write with read-back | 1 |
+| L1 measurement events | 9 (5 EMM reads, 3 head-unit reads, 1 historical head-unit write) |
+
+The 429 figure is a count of analysed definitions, not evidence that every request
+is implemented or available on this vehicle. Only the nine L1 events have archived
+raw evidence. See [`reference/evidence/evidence-register.md`](reference/evidence/evidence-register.md)
+and [`reference/evidence/claims-register.md`](reference/evidence/claims-register.md).
+
+**Firmware:** neither ECU has a demonstrated full OBD2 flash dump. The EMM
+`SW13_1_V1_3` definition is a diagnostic description, not proof of the executable
+firmware. The head-unit update artifacts are delta/container data, not a full flash
+image. No vendor firmware, DDT database, or raw vehicle log is redistributed here.
+
 ## What was actually changed
 
 One byte, one bit, on data identifier `0x6C1C`:
+
+> This is a historical record of one unit/software state, not a supported retrofit
+> procedure. The Android Auto projection itself was not tested and no recovery path
+> is verified. Do not copy `0x78` to another unit.
 
 ```
 before  0x38   0011 1000   MirrorLink, MW and LW enabled, Android Auto absent
@@ -48,7 +84,7 @@ restart the head unit shows the Android Auto entries.
 
 | If you want to… | Read |
 |---|---|
-| **do the whole job once, in order** | **[`END_TO_END_GUIDE.md`](END_TO_END_GUIDE.md)** |
+| read the historical activation walkthrough | **[`END_TO_END_GUIDE.md`](END_TO_END_GUIDE.md)** |
 | know whether your car is covered | [`docs/01-compatibility.md`](docs/01-compatibility.md) |
 | buy the right adapter | [`docs/02-required-hardware.md`](docs/02-required-hardware.md) |
 | install the tools | [`docs/03-software-installation.md`](docs/03-software-installation.md) |
@@ -59,6 +95,14 @@ restart the head unit shows the Android Auto entries.
 | plan CarPlay | [`docs/08-carplay-adapter.md`](docs/08-carplay-adapter.md) |
 | fix a problem | [`docs/troubleshooting.md`](docs/troubleshooting.md) |
 | understand the risk | [`docs/recovery-and-risks.md`](docs/recovery-and-risks.md) |
+
+## Technical reference for both ECUs
+
+The evidence-tagged, read-only reference is in
+[`reference/README.md`](reference/README.md). It covers the EMM-T4/EDISON body
+controller and the TomTom 1ME09 head unit: identity, diagnostic service families,
+configuration semantics, firmware versions, dump feasibility, evidence levels,
+sources, and research gaps. It is a reference, not a coding guide.
 
 ## The tools
 
@@ -90,8 +134,11 @@ see `docs/recovery-and-risks.md` for why, and for how a restore is done instead.
 Offline tests, no car required:
 
 ```bash
-python -m unittest discover -s tests -v      # 40 tests
+python -m unittest discover -s tests -v      # 40/40 passing, no car required
 ```
+
+The 40 tests pass with `pyserial` installed (`pip install -r tools/requirements.txt`);
+they exercise the mock ECU and do not touch a vehicle.
 
 ## Companion project: OBDLink macOS Bluetooth RFCOMM Bridge
 
@@ -105,11 +152,14 @@ the adapter over Bluetooth directly.
 - It provides a reliable **RFCOMM/SPP connection** to the OBDLink MX+ on macOS.
 - It was used for the **successful Smart 453 Android Auto activation** described in
   this repository.
-- It exposes the link as a **local serial port**, typically `/tmp/obdlink-mx`, so
-  any serial tool can use it.
-- It handles **Bluetooth transport only**. It does *not* guard or filter diagnostic
-  commands — that is the job of the tools in this repository, which enforce the
-  read allowlist and the write locks themselves.
+- The **v0.2.0** line adds a secured local Unix socket with NDJSON framing and two
+  command gates: `adapter-only` and `vehicle-readonly`. The gate is a narrow,
+  vehicle-specific allowlist, not a universal safety filter.
+- The legacy v0.1.0 TCP/PTY path remains available and has **no command gate**. It
+  must be treated as unrestricted access to the adapter.
+- The bridge does not decode diagnostics and does not replace the read/write locks
+  in this repository's tools. It also does **not** perform ISO-TP reassembly; that
+  remains in the Python diagnostic client.
 - **A phone can hold the adapter.** If an iPhone is still connected to the OBDLink
   MX+ over Bluetooth, the Mac cannot connect; the attempt ends in a page timeout
   after about 15 seconds even though the adapter looks available. Disconnect the
@@ -120,7 +170,7 @@ The bridge defaults to `/tmp/obdlink`; everything in this repository uses
 
 ```bash
 # terminal 1 — keep this running
-ADDR="AA:BB:CC:DD:EE:FF"      # ← replace with YOUR adapter's address
+ADDR="<adapter-address>"      # ← replace with YOUR adapter's address
 ./scripts/start.sh --address "$ADDR" --pty /tmp/obdlink-mx
 # bridge ready
 #   tcp : 127.0.0.1:35100 (loopback only)
@@ -186,7 +236,7 @@ A claim without a tag is an open question.
 ## License
 
 Documentation: **CC BY 4.0** — see [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
-Code in `tools/` and `tests/`: **MIT** — see [`LICENSE-CODE`](LICENSE-CODE).
+Code in `tools/`, `tests/` and `reference/tools/`: MIT — see [`LICENSE-CODE`](LICENSE-CODE).
 
 No vendor firmware, application, database or documentation is redistributed here.
 Third-party material is cited in [`REFERENCES.md`](REFERENCES.md).

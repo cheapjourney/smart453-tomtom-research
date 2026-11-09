@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Configuration row",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "parameter_id",
+    "definition_file",
+    "definition_sha256",
+    "request_id",
+    "parameter_name",
+    "direction",
+    "access_type",
+    "evidence_level",
+    "evidence_status",
+    "source_id"
+  ],
+  "properties": {
+    "parameter_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "definition_file": {
+      "type": "string"
+    },
+    "definition_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "parameter_name": {
+      "type": "string"
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "READ",
+        "WRITE"
+      ]
+    },
+    "access_type": {
+      "type": "string",
+      "enum": [
+        "READ",
+        "WRITE",
+        "IO_CONTROL",
+        "ROUTINE",
+        "SESSION",
+        "RESET",
+        "CLEAR_DTC",
+        "COMM_CONTROL",
+        "KEEPALIVE",
+        "UNKNOWN"
+      ]
+    },
+    "evidence_level": {
+      "type": "string",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    "evidence_status": {
+      "type": "string",
+      "enum": [
+        "CONFIRMED",
+        "UNCONFIRMED",
+        "CONTRADICTED",
+        "NOT_TESTED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "mask": {
+      "type": "string"
+    },
+    "encoding": {
+      "type": "string"
+    },
+    "firstbyte": {
+      "type": "string"
+    },
+    "bitoffset": {
+      "type": "string"
+    }
+  }
+}

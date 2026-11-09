@@ -86,15 +86,19 @@ a separate repository:
 
 Build and start it with the port name this project expects. **The bridge defaults
 to `/tmp/obdlink`; everything here uses `/tmp/obdlink-mx`, so pass `--pty`
-explicitly:**
+explicitly:** The commands below start the **legacy v0.1.0 TCP/PTY path**. That path
+is ungated raw serial access and is the path this project's activation guide uses.
+The v0.2.0 secured Unix-socket mode is documented in the bridge repository; its
+vehicle gate blocks write frames such as `2E`, so do not substitute it for the
+legacy path without changing the workflow.
 
 ```bash
 git clone https://github.com/cheapjourney/obdlink-macos-rfcomm-bridge.git
 cd obdlink-macos-rfcomm-bridge
 make                 # builds build/obdlink-rfcomm with swiftc
-make test            # 9 hardware-free checks
+make test            # 12 hardware-free checks
 
-ADDR="AA:BB:CC:DD:EE:FF"      # ← replace with YOUR adapter's address
+ADDR="<adapter-address>"      # ← replace with YOUR adapter's address
 ./scripts/start.sh --address "$ADDR" --pty /tmp/obdlink-mx
 ```
 
