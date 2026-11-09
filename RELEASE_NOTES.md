@@ -1,7 +1,8 @@
 # Research snapshot — 2026.11.09
 
-**Status:** documented research snapshot candidate. No Git tag, push or GitHub
-release has been created for this snapshot.
+**Status at the 2026-11-09 review:** the `docs/phase8.2-reference` branch is pushed
+and PR #1 is open against `main`. `main` remains unchanged; no merge, tag or
+GitHub release has been created for this snapshot.
 
 ## Scope
 

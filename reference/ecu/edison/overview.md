@@ -6,8 +6,8 @@
 |---|---|---|
 | Vehicle | Smart 453 / W453, Renault Twingo III platform | vehicle scope |
 | Part number | `231A07278R` | owner/vehicle record |
-| Variant | EMM-T4 L4 (dealer/parts attribution) | `EV-EMM-009` |
-| Role | Body/energy management; called SAM-F in the driver footwell | `EV-EMM-009` |
+| Variant | EMM-T4 (community report; L4/Bosch attribution unconfirmed) | `EV-EMM-009` |
+| Role | Body/energy management; called SAM-F in the driver footwell | owner/vehicle record |
 | Diagnostic definition | `EMM_EDISON_DDT2000_SW13_1_V1_3` | `EV-EMM-002` |
 | Identity tuple | `8/414/C132/4022` | `EV-EMM-003` |
 | CAN request / response | `0x74D` / `0x76D` | project measurement |
@@ -17,8 +17,10 @@
 
 The part number is known for this vehicle. The Bosch EMM-T4 L4 attribution and the
 alternative numbers `A4539000403`, `3058565646`, `237105821R`, and `237107789R` come
-from dealer/parts listings and are **not independently confirmed**. The MCU is not
-confirmed; `SPC560B54L` and `SPC560B60L5` are forum candidates only.
+from dead dealer/parts listings and are **not independently confirmed**; they are not
+used as confirmation here. A single community report describes a 2020 replacement
+`231A07278R` unit as EMM-T4; that is not an independent confirmation either. The MCU
+is not confirmed; `SPC560B54L` and `SPC560B60L5` are forum candidates only.
 
 ## 2. The definition is not the firmware
 

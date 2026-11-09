@@ -1,9 +1,16 @@
-# End-to-end guide — from a blank Mac to a verified Android Auto activation
+# Historical end-to-end record — Android Auto activation case
 
-This is the whole job in one page: hardware, both repositories, the Bluetooth
-bridge, the diagnostic tools, the activation and the verification. It is written
-for someone who has never seen the project and has no access to the notes it grew
-out of.
+> **Historical single-case record — not a universal Smart 453 activation guide.**
+> This page documents one observed head-unit/hardware/software combination:
+> part number `259156244R`, software `11.346.3206684-8060`. The write and read-back
+> were confirmed on that unit only. Actual Android Auto projection with a phone was
+> not tested, and no recovery path is verified. Changes to control units can cause
+> malfunctions. Do not copy `0x78` or these frames to another vehicle.
+
+This page records the historical workflow: hardware, both repositories, the
+Bluetooth bridge, the diagnostic tools, the activation and the verification. It is
+written for someone who has never seen the project and has no access to the notes it
+grew out of. It is a record of one case, not a supported universal procedure.
 
 **Read the status column of every step.** Only some of them can be reproduced
 without a car, and only some of them were ever verified on a vehicle.
@@ -227,7 +234,7 @@ python -m unittest discover -s tests -v
 Expected:
 
 ```
-Ran 36 tests in 12.3s
+Ran 40 tests
 OK
 ```
 
@@ -474,7 +481,7 @@ Reference: [`docs/08-carplay-adapter.md`](docs/08-carplay-adapter.md).
 ## Offline rehearsal
 
 Everything that does not need a car can be rehearsed end to end: build the bridge,
-run its self-test, install the tools, run the 36 tests, then point `read_config.py`
+run its self-test, install the tools, run the 40 tests, then point `read_config.py`
 and `write_config.py` at a mock head unit behind a PTY at `/tmp/obdlink-mx`. That
 is exactly how the commands in this guide were checked, including the write path
 and the read-back, without touching a vehicle.
@@ -524,7 +531,7 @@ OBDLINK_PTY=/tmp/obdlink-mx ./scripts/stop.sh
 cd ~/smart453/smart453-tomtom-research
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r tools/requirements.txt
-python -m unittest discover -s tests -v     # 36 tests, OK
+python -m unittest discover -s tests -v     # 40 tests, OK
 ```
 
 **3. The diagnostic sequence against a mock head unit**

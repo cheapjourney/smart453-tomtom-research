@@ -241,6 +241,18 @@ def main() -> int:
     if len({e.get("evidence_id") for e in p84_evidence}) != len(p84_evidence):
         errors.append("duplicate evidence_id in phase8_4_evidence.json")
 
+    # A source marked DO_NOT_CITE may stay in the register for provenance,
+    # but must not be used as a public evidence source.
+    do_not_cite = {
+        s.get("source_id")
+        for s in sources + p67_sources + p84_sources
+        if s.get("publication_decision") == "DO_NOT_CITE"
+    }
+    for e in evidence + p67_evidence + p84_evidence:
+        for sid in e.get("source_ids") or []:
+            if sid in do_not_cite:
+                errors.append(f"{e.get('evidence_id', '<missing>')}: cites DO_NOT_CITE source {sid}")
+
     # Claim checks.
     for c in claims:
         cid = c.get("claim_id", "<missing>")

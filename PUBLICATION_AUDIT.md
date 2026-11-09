@@ -426,3 +426,11 @@ The published activation result now uses step labels instead of absolute clock
 times. It contains no location, VIN, adapter serial or vehicle identifier. The
 sequence is retained for reproducibility; the timestamped private log remains
 private.
+
+### 12.5 Publication-status addendum (2026-11-09, Phase 9.4)
+
+At the 2026-11-09 review, commit `48d5ef0665528c5a43c73031253975da6a552580`
+was pushed to `docs/phase8.2-reference` and PR #1 is open against `main`. `main`
+remains at `c4dc2b415f680a4de7be839c1ad3b0e8c6197e9b`. No merge, tag or GitHub
+release has been approved or performed. The commit/push-approval sentence in
+section 12.4 is historical; this addendum records the post-publication state.

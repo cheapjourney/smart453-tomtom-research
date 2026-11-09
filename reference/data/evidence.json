@@ -144,13 +144,14 @@
     {
       "evidence_id": "EV-EMM-009",
       "ecu_id": "ECU-EMM-EDISON",
-      "statement": "The vehicle's EMM is identified as 231A07278R. Dealer and parts listings associate it with EMM-T4 L4 and the alternative numbers A4539000403, 3058565646, 237105821R, and 237107789R; those associations are not independently confirmed.",
+      "statement": "The vehicle's EMM part number is 231A07278R. A single community report describes a 2020 replacement 231A07278R unit as EMM-T4; this is not independent confirmation. The EMM-T4 L4/Bosch attribution and the alternative numbers from dead dealer/parts listings remain unconfirmed and are not used as evidence here.",
       "level": "L4",
       "status": "UNCONFIRMED",
       "hardware_scope": "231A07278R / EMM-T4 L4 (part number known; MCU and executable firmware unconfirmed)",
       "software_scope": "EMM_EDISON_DDT2000_SW13_1_V1_3 (definition selected by 8/414/C132/4022); executable firmware unknown",
       "source_ids": [
-        "SRC-PARTS-EMM"
+        "SRC-USER-PHASE82",
+        "SRC-SMART-FORUM-4149"
       ],
       "measurement_ref": "",
       "artifact_ref": "",

@@ -1,5 +1,12 @@
 # Release candidate report — 2026-11-08
 
+> **Historical report (2026-11-08).** This is the original pre-publication
+> engineering report, retained unchanged. Its "private" and 36-test statements
+> describe the 2026-11-08 state. Status at the 2026-11-09 review: the
+> `docs/phase8.2-reference` branch is pushed, PR #1 is open, 40/40 tests pass, and
+> no merge, tag or release has been performed. See `RELEASE_NOTES.md` and
+> `PUBLICATION_AUDIT.md` section 12.5.
+
 Independent check before the repository could be made public again. The repository
 stayed **private** throughout; nothing was pushed to a public remote.
 
